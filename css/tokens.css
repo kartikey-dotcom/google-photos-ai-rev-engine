@@ -1,0 +1,92 @@
+:root {
+  /* ==========================================================================
+     Google Material 3 / Internal PM Tool Design Tokens
+     ========================================================================== */
+
+  /* Primary Brand Colors (Google Photos & Google Workspace) */
+  --google-blue: #1a73e8;
+  --google-blue-hover: #1765cc;
+  --google-blue-active: #1558b0;
+  --google-blue-light: #e8f0fe;
+  --google-blue-focus: rgba(26, 115, 232, 0.25);
+
+  /* Google Palette Accents (for Pinwheel & Badges) */
+  --google-red: #ea4335;
+  --google-yellow: #fbbc04;
+  --google-green: #34a853;
+  --google-red-dark: #d93025;
+  --google-green-dark: #188038;
+
+  /* Alert & Feedback States */
+  --error-bg: #fce8e6;
+  --error-border: #fad2cf;
+  --error-text: #c5221f;
+  --error-icon: #d93025;
+
+  --success-bg: #e6f4ea;
+  --success-border: #ceead6;
+  --success-text: #137333;
+  --success-icon: #188038;
+
+  --warning-bg: #fef7e0;
+  --warning-border: #feefc3;
+  --warning-text: #b06000;
+
+  /* Neutral Background & Surface Colors */
+  --surface-canvas: #ffffff;
+  --surface-sidebar: #f8f9fa;
+  --surface-card: #ffffff;
+  --surface-hover: #f1f3f4;
+  --surface-active: #e8eaed;
+  --surface-code: #f1f3f4;
+
+  /* Typography / Text Colors */
+  --text-primary: #202124;
+  --text-secondary: #5f6368;
+  --text-tertiary: #80868b;
+  --text-disabled: #bdc1c6;
+  --text-on-primary: #ffffff;
+
+  /* Borders & Dividers */
+  --border-subtle: #f1f3f4;
+  --border-default: #dadce0;
+  --border-strong: #bdc1c6;
+  --border-focus: #1a73e8;
+
+  /* Shadows (Google Material Elevation) */
+  --shadow-1: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+  --shadow-2: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 2px 6px 2px rgba(60, 64, 67, 0.15);
+  --shadow-3: 0 1px 3px 0 rgba(60, 64, 67, 0.3), 0 4px 8px 3px rgba(60, 64, 67, 0.15);
+  --shadow-float: 0 4px 12px 0 rgba(60, 64, 67, 0.2);
+
+  /* Layout & Sizing */
+  --header-height: 64px;
+  --sidebar-width: 380px;
+  --canvas-max-width: 920px;
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+
+  /* Typography Scale */
+  --font-family-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Google Sans", sans-serif;
+  --font-family-mono: "Roboto Mono", SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  --font-size-xs: 0.75rem;    /* 12px */
+  --font-size-sm: 0.84375rem; /* 13.5px */
+  --font-size-base: 0.9375rem;/* 15px */
+  --font-size-lg: 1.0625rem;  /* 17px */
+  --font-size-xl: 1.25rem;    /* 20px */
+  --font-size-2xl: 1.5rem;    /* 24px */
+  --font-size-3xl: 1.875rem;  /* 30px */
+
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.68;
+
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+}

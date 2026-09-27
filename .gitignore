@@ -1,0 +1,15 @@
+# Local Environment Files & Secrets
+.env
+.env.local
+*.env
+
+# Python / Test Caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# System / Editor Artifacts
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
