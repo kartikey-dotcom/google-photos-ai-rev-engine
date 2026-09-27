@@ -1,302 +1,318 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Internal Product Management Intelligence Engine for Google Photos — synthesizing unstructured Voice-of-Customer feedback to deconstruct human episodic memory retrieval breakdowns.">
-  <title>Google Photos VoC Intelligence Engine | Core PM Discovery Tool</title>
-  
-  <!-- Google Fonts: Inter & Roboto Mono -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
-  
-  <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="css/tokens.css">
-  <link rel="stylesheet" href="css/main.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Photos: Memory Discovery Engine</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Roboto', 'sans-serif'],
+                    },
+                    colors: {
+                        google: {
+                            blue: '#1A73E8',
+                            red: '#EA4335',
+                            yellow: '#FBBC04',
+                            green: '#34A853',
+                            gray: '#5F6368',
+                            lightGray: '#F8F9FA',
+                            blueLight: '#E8F0FE',
+                        }
+                    },
+                    boxShadow: {
+                        'material': '0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #F8F9FA;
+        }
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+        }
+    </style>
 </head>
-<body>
+<body class="text-gray-800 antialiased font-sans">
 
-  <!-- Top Application Header -->
-  <header class="app-header" id="appHeader" style="border-bottom: 1px solid #dadce0; padding: 0 24px; background: #fff; height: 64px; display: flex; align-items: center; justify-content: space-between;">
-    <div class="header-left" style="display: flex; align-items: center; gap: 16px;">
-      <div class="photos-logo-wrap" title="Google Photos" style="display:flex; align-items:center; gap:8px;">
-        <svg width="24" height="24" viewBox="0 0 192 192" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M96 24C115.882 24 132 40.1177 132 60V96H96C76.1177 96 60 79.8823 60 60C60 40.1177 76.1177 24 96 24Z" fill="#FBBC04"/>
-          <path d="M168 96C168 115.882 151.882 132 132 132H96V96C96 76.1177 112.118 60 132 60C151.882 60 168 76.1177 168 96Z" fill="#34A853"/>
-          <path d="M96 168C76.1177 168 60 151.882 60 132V96H96C115.882 96 132 112.118 132 132C132 151.882 115.882 168 96 168Z" fill="#4285F4"/>
-          <path d="M24 96C24 76.1177 40.1177 60 60 60H96V96C96 115.882 79.8823 132 60 132C40.1177 132 24 115.882 24 96Z" fill="#EA4335"/>
-        </svg>
-        <span style="font-size: 20px; font-weight: 500; color: #5f6368; letter-spacing: -0.5px;">Google Photos VoC Intelligence</span>
-      </div>
-      <div style="display:flex; gap:8px; align-items:center;">
-        <span style="background:#f1f3f4; color:#5f6368; padding:4px 8px; border-radius:4px; font-size:11px; font-weight:600; letter-spacing:0.5px;">PROD-INTERNAL</span>
-        <span style="background:#e6f4ea; color:#137333; padding:4px 10px; border-radius:12px; font-size:12px; font-weight:500; display:flex; align-items:center; gap:4px border: 1px solid #ceead6;">
-          <span style="width:6px; height:6px; background:#188038; border-radius:50%; display:inline-block;"></span> Data Lake Connected
-        </span>
-      </div>
-    </div>
+    <!-- Top Navigation -->
+    <nav class="bg-white shadow-material py-4 px-8 flex justify-between items-center mb-8 sticky top-0 z-50">
+        <div class="flex items-center space-x-2 text-xl font-medium text-gray-700">
+            <svg class="w-6 h-6 text-google-blue" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+            <span>Google Core Analytics</span>
+        </div>
+        <div class="flex space-x-8 text-sm font-medium text-gray-600">
+            <a href="#" class="hover:text-google-blue transition">Performance</a>
+            <a href="#" class="hover:text-google-blue transition">Traffic</a>
+            <a href="#" class="text-google-blue border-b-2 border-google-blue pb-1">Retrieval Friction</a>
+            <a href="#" class="hover:text-google-blue transition">Revenue</a>
+        </div>
+        <div>
+            <div class="w-8 h-8 rounded-full bg-google-blue text-white flex items-center justify-center font-bold">A</div>
+        </div>
+    </nav>
 
-    <div class="header-center" style="flex:1; max-width:600px; margin:0 32px;">
-      <div style="position:relative; width:100%;">
-        <svg style="position:absolute; left:12px; top:10px; color:#5f6368;" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-        <input type="text" placeholder="Search clusters, feature keywords, review IDs, Buganizer #..." style="width:100%; padding:10px 10px 10px 40px; border-radius:8px; border:none; background:#f1f3f4; font-size:14px; outline:none; font-family:'Inter',sans-serif;">
-        <div style="position:absolute; right:8px; top:8px; background:#fff; border:1px solid #dadce0; padding:2px 6px; border-radius:4px; font-size:12px; color:#5f6368;">⌘K</div>
-      </div>
-    </div>
-
-    <div class="header-right" style="display: flex; align-items: center; gap: 16px; color:#5f6368;">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="19" cy="5" r="1"/><circle cx="5" cy="5" r="1"/><circle cx="12" cy="19" r="1"/><circle cx="19" cy="19" r="1"/><circle cx="5" cy="19" r="1"/></svg>
-      <div style="position:relative;">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
-        <div style="position:absolute; top:0; right:2px; width:8px; height:8px; background:#d93025; border-radius:50%; border:2px solid #fff;"></div>
-      </div>
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-      <div style="width:32px; height:32px; border-radius:50%; background:#1a73e8; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:600; font-size:14px; margin-left:8px;">DC</div>
-      
-      <!-- Hidden original badge to preserve JS -->
-      <div id="modelBadge" style="display:none;"><span id="modelName">Gemini</span></div>
-    </div>
-  </header>
-
-  <!-- Master 30/70 Desktop Container -->
-  <main class="app-container" id="mainContainer">
-    
-    <!-- LEFT SIDEBAR: Controls & Trigger Modules (25%) -->
-    <aside class="sidebar new-sidebar" id="controlSidebar" aria-label="Control Sidebar">
-      
-      <div class="sidebar-top-header">
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-          <h2 style="font-size:18px; margin:0; font-weight:600; color:#202124; letter-spacing:-0.5px;">Discovery Engine</h2>
-          <span style="color:#1a73e8; background:#e8f0fe; padding:2px 6px; border-radius:4px; font-size:11px; font-weight:700; letter-spacing:0.5px;">V6.83-ML</span>
-        </div>
-        <p style="font-size:12px; color:#5f6368; margin:4px 0 0 0; font-weight:500;">VoC Scope & Workflows</p>
-      </div>
-
-      <!-- Module 1: API Configuration -->
-      <div class="sidebar-block" id="apiConfigSection">
-        <div class="block-header">
-          <span class="block-title">API Key & Session Token</span>
-          <span class="live-dot-text"><span class="live-dot"></span> LIVE</span>
-        </div>
-        <div class="input-with-toggle-new">
-          <svg style="color:#5f6368; margin:0 8px; flex-shrink:0;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-          <input type="password" id="apiKeyInput" class="api-input-new" placeholder="AI-Studio-corp-v2.94-prod" autocomplete="off" spellcheck="false">
-          <button type="button" id="toggleKeyVisibilityBtn" style="display:none;"><svg id="eyeIcon"></svg></button>
-        </div>
-        <div id="apiKeyStatus" style="display:none;"><span id="apiKeyStatusText"></span></div>
-      </div>
-
-      <!-- Module 2: Data Source Filter -->
-      <div class="sidebar-block" id="sourceSelectorSection">
-        <div class="block-header">
-          <span class="block-title">Data Source Feeds</span>
-          <span class="meta-text">4 of 5 Connected</span>
-        </div>
-        <div class="source-pills" id="sourceListContainer">
-          <label class="source-pill active" for="sourcePlayStore">
-            <input type="checkbox" id="sourcePlayStore" class="source-checkbox" data-source="Play Store" checked style="display:none;" />
-            <span class="pill-text">✓ Google Play Store (42.1k)</span>
-          </label>
-          <label class="source-pill active" for="sourceAppStore">
-            <input type="checkbox" id="sourceAppStore" class="source-checkbox" data-source="App Store" checked style="display:none;" />
-            <span class="pill-text">✓ iOS App Store (28.4k)</span>
-          </label>
-          <label class="source-pill active" for="sourceReddit">
-            <input type="checkbox" id="sourceReddit" class="source-checkbox" data-source="r/GooglePhotos" checked style="display:none;" />
-            <span class="pill-text">✓ Reddit r/googlephotos (14.2k)</span>
-          </label>
-          <label class="source-pill active" for="sourceSupport">
-            <input type="checkbox" id="sourceSupport" class="source-checkbox" data-source="Google Support Forum" checked style="display:none;" />
-            <span class="pill-text">✓ Google Support Forums (18.6k)</span>
-          </label>
-          <label class="source-pill disabled">
-            <span class="pill-text" style="color:#80868b; display:flex; align-items:center; gap:4px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg> In-App Feedback Logs</span>
-          </label>
-        </div>
-        <!-- Hidden elements to preserve JS state logic -->
-        <span id="activeCorpusCount" style="display:none;"></span>
-        <span id="countReddit" style="display:none;"></span>
-        <span id="countPlayStore" style="display:none;"></span>
-        <span id="countAppStore" style="display:none;"></span>
-        <span id="countSupport" style="display:none;"></span>
-      </div>
-
-      <!-- Module 2B: Temporal Corpus Window -->
-      <div class="sidebar-block">
-        <div class="block-header">
-          <span class="block-title">Temporal Corpus Window</span>
-        </div>
-        <div class="select-dropdown-new">
-          <svg style="color:#5f6368; margin-left:12px; flex-shrink:0;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-          <select style="border:none; background:transparent; width:100%; padding:8px 12px 8px 8px; outline:none; font-family:'Inter',sans-serif; font-size:13px; font-weight:500; color:#202124; appearance:none;">
-            <option>Last 30 Days (Post-Magic Editor)</option>
-          </select>
-          <svg style="color:#5f6368; margin-right:12px; position:absolute; right:0;" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
-        </div>
-      </div>
-
-      <!-- Module 3: Analytical Workflows -->
-      <div class="sidebar-block" id="workflowSection">
-        <div class="block-header" style="margin-bottom:8px;">
-          <span class="block-title">ANALYSIS WORKFLOWS</span>
-          <span style="background:#fef7e0; color:#b06000; font-size:10px; padding:2px 6px; border-radius:4px; font-weight:700; display:flex; align-items:center; gap:2px; border:1px solid #feefc3;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg> Drift Detected in v6.82</span>
-        </div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
         
-        <div class="workflow-stack-new" id="workflowButtonsContainer">
-          
-          <button type="button" class="wf-item active" id="btnWorkflow1" data-workflow="taxonomy">
-            <div style="display:flex; justify-content:space-between; margin-bottom:4px; align-items:center;">
-              <span class="wf-title-new"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:6px;"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>Taxonomy of 'Lost' Photos</span>
-              <span class="wf-badge-new active-badge">Active</span>
-            </div>
-          </button>
+        <!-- Header -->
+        <header class="mb-10">
+            <h1 class="text-3xl font-normal text-gray-900 flex items-center gap-3">
+                <span class="text-4xl">📸</span> Google Photos: Memory Discovery Engine
+            </h1>
+            <p class="text-google-gray mt-2 text-lg">Internal discovery dashboard — semantic vs. episodic search failure analysis.</p>
+        </header>
 
-          <button type="button" class="wf-item" id="btnWorkflow2" data-workflow="cognitive_gap">
-            <div style="display:flex; justify-content:space-between; margin-bottom:4px; align-items:center;">
-              <span class="wf-title-new"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:6px;"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>Cognitive Gap Matrix</span>
+        <!-- KPI Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+            <div class="card p-6 flex flex-col justify-between">
+                <h3 class="text-xs font-bold text-google-gray uppercase tracking-wider mb-2">Valid Verbatims Analyzed</h3>
+                <div class="text-4xl font-normal text-gray-900 mb-4">25,450</div>
+                <div>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                        ✅ Statistically Significant
+                    </span>
+                </div>
             </div>
-          </button>
-
-          <button type="button" class="wf-item" id="btnWorkflow3" data-workflow="workarounds">
-            <div style="display:flex; justify-content:space-between; margin-bottom:4px; align-items:center;">
-              <span class="wf-title-new"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:6px;"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>Behavioral Workaround Mapping</span>
-              <span class="wf-badge-new" style="background:#fce8e6; color:#c5221f; border:1px solid #fad2cf;">+34% Spk</span>
+            
+            <div class="card p-6 flex flex-col justify-between">
+                <h3 class="text-xs font-bold text-google-gray uppercase tracking-wider mb-2">Primary Missing Metadata</h3>
+                <div class="text-4xl font-normal text-gray-900 mb-4">Absolute Dates</div>
+                <div>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                        ⚠️ Forgotten 84% of time
+                    </span>
+                </div>
             </div>
-          </button>
 
-          <button type="button" class="wf-item" id="btnWorkflow4" data-workflow="poa">
-            <div style="display:flex; justify-content:space-between; margin-bottom:4px; align-items:center;">
-              <span class="wf-title-new"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:6px;"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>Product Opportunity Synthesis</span>
+            <div class="card p-6 flex flex-col justify-between">
+                <h3 class="text-xs font-bold text-google-gray uppercase tracking-wider mb-2">Dominant Friction Pattern</h3>
+                <div class="text-4xl font-normal text-gray-900 mb-4">Vague Semantic Recall</div>
+                <div>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                        🚨 Critical Action Needed
+                    </span>
+                </div>
             </div>
-          </button>
-
         </div>
-        
-        <button type="button" id="runPipelineBtn" style="width:100%; margin-top:16px; background:var(--gradient-primary); color:white; border:none; padding:12px; border-radius:24px; font-weight:600; font-size:13px; cursor:pointer; font-family:'Outfit','Inter',sans-serif; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow: 0 10px 20px rgba(67, 24, 255, 0.2); letter-spacing:0.5px;">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-          Re-run Cluster Intelligence (25,450 Items)
-        </button>
-      </div>
 
-      <div style="flex-grow: 1;"></div>
-      
-      <!-- Footer items -->
-      <div style="border-top: 1px solid #dadce0; padding:16px 24px; display:flex; flex-direction:column; gap:16px; color:#5f6368; font-size:13px; font-weight:500; background:#fff;">
-        <div style="display:flex; align-items:center; gap:12px; cursor:pointer;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><circle cx="12" cy="12" r="3"></circle></svg> Buganizer Integration</div>
-        <div style="display:flex; align-items:center; gap:12px; cursor:pointer;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg> Settings</div>
-      </div>
-    </aside>
+        <!-- Charts Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
+            <!-- Donut Chart -->
+            <div class="card p-6">
+                <h2 class="text-lg font-medium text-gray-900 mb-6 border-b pb-4">What Users <span class="italic">Actually</span> Remember (Episodic Anchors)</h2>
+                <div class="relative h-72 flex justify-center items-center">
+                    <canvas id="donutChart"></canvas>
+                </div>
+            </div>
 
-    <!-- RIGHT CANVAS: Analytical Reading Pane (70%) -->
-    <section class="canvas" id="readingCanvas" aria-label="Analytical Reading Pane">
-      
-      <!-- Canvas Navigation Bar -->
-      <div class="canvas-header" id="canvasHeader">
-        <div class="canvas-header-left">
-          <span class="active-wf-title" id="canvasTitleDisplay">Executive Reading Canvas</span>
-          <span class="active-wf-tag" id="canvasTagDisplay">Ready</span>
+            <!-- Stacked Bar Chart -->
+            <div class="card p-6">
+                <h2 class="text-lg font-medium text-gray-900 mb-6 border-b pb-4">Manual Workarounds by Source</h2>
+                <div class="relative h-72">
+                    <canvas id="barChart"></canvas>
+                </div>
+            </div>
         </div>
-        <div class="canvas-header-right">
-          <button type="button" class="btn-secondary" id="copyReportBtn" disabled title="Copy formatted report for Google Slides">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-            </svg>
-            <span id="copyBtnText">Copy to Clipboard</span>
-          </button>
+
+        <!-- Verbatim Evidence Grid -->
+        <div class="mb-10">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-normal text-gray-900">Verbatim Evidence</h2>
+                <select class="block w-48 pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-google-blue focus:border-google-blue sm:text-sm rounded-md shadow-sm bg-white border">
+                    <option>All Sources</option>
+                    <option>Reddit</option>
+                    <option>App Store</option>
+                    <option>Support Forum</option>
+                </select>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Card 1 -->
+                <div class="card p-6 border-l-4 border-l-google-blue relative">
+                    <div class="absolute top-4 right-4">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">Reddit</span>
+                    </div>
+                    <p class="text-gray-700 italic mt-4">"I just wanted that photo of the pasta in Rome, but searching 'pasta' gives me recipes. I know I was wearing my red jacket. Scrolled for 10 mins."</p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="card p-6 border-l-4 border-l-google-blue relative">
+                    <div class="absolute top-4 right-4">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">App Store</span>
+                    </div>
+                    <p class="text-gray-700 italic mt-4">"Searching is useless if I don't know the exact date. I remember the vibe of a purple sunset, why can't I search 'purple sunset with two people'?"</p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="card p-6 border-l-4 border-l-google-blue relative">
+                    <div class="absolute top-4 right-4">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">Support Forum</span>
+                    </div>
+                    <p class="text-gray-700 italic mt-4">"How do I filter OUT screenshots? Every time I search 'concert', I get 200 screenshots of Spotify playlists instead of my friends."</p>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="card p-6 border-l-4 border-l-google-blue relative">
+                    <div class="absolute top-4 right-4">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">Reddit</span>
+                    </div>
+                    <p class="text-gray-700 italic mt-4">"Had to check WhatsApp to find the date I texted my mechanic about a tire issue, just so I could find the photo in Google Photos by date."</p>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="card p-6 border-l-4 border-l-google-blue relative">
+                    <div class="absolute top-4 right-4">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">Play Store</span>
+                    </div>
+                    <p class="text-gray-700 italic mt-4">"I know my dog was sleeping on my messy desk, but searching 'dog' shows 4,000 photos. I just want to search by the background."</p>
+                </div>
+
+                <!-- Card 6 -->
+                <div class="card p-6 border-l-4 border-l-google-blue relative">
+                    <div class="absolute top-4 right-4">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">App Store</span>
+                    </div>
+                    <p class="text-gray-700 italic mt-4">"I couldn't search for that cozy rainy feeling... I had to strip away all the emotional context to search like a robot."</p>
+                </div>
+            </div>
         </div>
-      </div>
 
-      <!-- Main Scrollable Body -->
-      <div class="canvas-scroll-body" id="canvasScrollBody">
-        <div class="canvas-content-wrapper" id="canvasContent">
-          
-          <!-- STATE 1: IDLE State (Default) -->
-          <div class="idle-container" id="idleStateContainer">
-            <svg class="idle-pinwheel-large" viewBox="0 0 192 192" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M96 24C115.882 24 132 40.1177 132 60V96H96C76.1177 96 60 79.8823 60 60C60 40.1177 76.1177 24 96 24Z" fill="#FBBC04"/>
-              <path d="M168 96C168 115.882 151.882 132 132 132H96V96C96 76.1177 112.118 60 132 60C151.882 60 168 76.1177 168 96Z" fill="#34A853"/>
-              <path d="M96 168C76.1177 168 60 151.882 60 132V96H96C115.882 96 132 112.118 132 132C132 151.882 115.882 168 96 168Z" fill="#4285F4"/>
-              <path d="M24 96C24 76.1177 40.1177 60 60 60H96V96C96 115.882 79.8823 132 60 132C40.1177 132 24 115.882 24 96Z" fill="#EA4335"/>
-            </svg>
-            <h2 class="idle-title">Google Photos Memory Retrieval Intelligence</h2>
-            <p class="idle-subtitle">
-              Synthesizing unstructured Voice-of-Customer complaints across Reddit, Play Store, and Support Forums to extract behavioral heuristics regarding memory search failures.
-            </p>
-            <div class="idle-instructions-grid">
-              <div class="idle-step-card">
-                <span class="step-num">1</span>
-                <h3 class="step-title">Enter Gemini Key</h3>
-                <p class="step-desc">Input your Google AI Studio API key in the masked configuration field on the left.</p>
-              </div>
-              <div class="idle-step-card">
-                <span class="step-num">2</span>
-                <h3 class="step-title">Select Ingestion Sources</h3>
-                <p class="step-desc">Filter active feedback channels to target specific user communities and device types.</p>
-              </div>
-              <div class="idle-step-card">
-                <span class="step-num">3</span>
-                <h3 class="step-title">Trigger PM Workflow</h3>
-                <p class="step-desc">Execute deterministic multi-shot analytical directives to produce slide-ready deliverables.</p>
-              </div>
+        <!-- Strategic Recommendation Banner -->
+        <div class="bg-google-blueLight border border-google-blue border-opacity-30 rounded-xl p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm">
+            <div class="flex-1">
+                <h2 class="text-xl font-medium text-google-blue flex items-center gap-2 mb-3">
+                    💡 Strategic Product Opportunity
+                </h2>
+                <p class="text-gray-800">
+                    Data indicates <strong>'Vague Semantic Recall'</strong> is the primary retrieval blocker. Users remember episodic details, but lack exact keywords. Build a <strong>'Progressive Contextual Disambiguation'</strong> MVP to allow AI-guided visual filtering.
+                </p>
             </div>
-          </div>
-
-          <!-- STATE 2: LOADING Skeleton State (Hidden by default) -->
-          <div class="loading-container" id="loadingStateContainer" style="display: none;">
-            <div class="loading-status-bar">
-              <div class="spinner-icon"></div>
-              <span id="loadingStatusText">Connecting to Gemini 1.5 Analytical Engine...</span>
+            <div>
+                <button class="bg-google-blue hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-md shadow transition duration-150 ease-in-out whitespace-nowrap">
+                    View MVP Prototype
+                </button>
             </div>
-            <div class="skeleton-block skeleton-title"></div>
-            <div class="skeleton-block skeleton-paragraph"></div>
-            <div class="skeleton-block skeleton-paragraph"></div>
-            <div class="skeleton-block skeleton-paragraph short"></div>
-            <div class="skeleton-block skeleton-quote"></div>
-            <div class="skeleton-block skeleton-paragraph"></div>
-            <div class="skeleton-block skeleton-table"></div>
-          </div>
-
-          <!-- STATE 3: ERROR State (Hidden by default) -->
-          <div class="error-container" id="errorStateContainer" style="display: none;">
-            <div class="error-header">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <line x1="12" y1="8" x2="12" y2="12"></line>
-                <line x1="12" y1="16" x2="12.01" y2="16"></line>
-              </svg>
-              <span id="errorTitle">Analytical Pipeline Error</span>
-            </div>
-            <div class="error-body" id="errorMessageText">
-              An error occurred during analytical synthesis.
-            </div>
-            <div class="error-action-row">
-              <button type="button" class="btn-error-retry" id="errorRetryBtn">Retry Workflow</button>
-            </div>
-          </div>
-
-          <!-- STATE 4: SUCCESS State & Rendered Report (Hidden by default) -->
-          <article class="report-content" id="reportContentContainer" style="display: none;">
-            <!-- Rendered Markdown AST will be injected here -->
-          </article>
-
         </div>
-      </div>
 
-    </section>
+    </div>
 
-  </main>
+    <script>
+        // Chart Configuration
+        document.addEventListener("DOMContentLoaded", function() {
+            
+            // Set default font family for charts to match Material Design (Roboto)
+            Chart.defaults.font.family = "'Roboto', 'sans-serif'";
+            Chart.defaults.color = '#5F6368';
 
-  <!-- Toast Notification -->
-  <div class="toast-notification" id="toastNotification" role="status" aria-live="polite">
-    <svg class="toast-icon-check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-      <polyline points="20 6 9 17 4 12"></polyline>
-    </svg>
-    <span id="toastMessage">Copied formatted report to clipboard!</span>
-  </div>
+            // Donut Chart
+            const ctxDonut = document.getElementById('donutChart').getContext('2d');
+            new Chart(ctxDonut, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Weather/Atmosphere', 'Clothing/Colors', 'People Present', 'Location Name', 'Exact Date'],
+                    datasets: [{
+                        data: [35, 25, 20, 15, 5],
+                        backgroundColor: [
+                            '#1A73E8', // Google Blue
+                            '#FBBC04', // Google Yellow
+                            '#EA4335', // Google Red
+                            '#34A853', // Google Green
+                            '#9AA0A6'  // Slate/Gray
+                        ],
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                padding: 20,
+                                boxWidth: 12
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return ' ' + context.label + ': ' + context.parsed + '%';
+                                }
+                            }
+                        }
+                    },
+                    cutout: '70%'
+                }
+            });
 
-  <!-- Entry Script (ES Module) -->
-  <script type="module" src="js/app.js?v=2"></script>
+            // Stacked Bar Chart
+            const ctxBar = document.getElementById('barChart').getContext('2d');
+            new Chart(ctxBar, {
+                type: 'bar',
+                data: {
+                    labels: ['Reddit', 'App Store', 'Forums'],
+                    datasets: [
+                        {
+                            label: 'Chronological Scrubbing',
+                            data: [65, 45, 30],
+                            backgroundColor: '#1A73E8' // Google Blue
+                        },
+                        {
+                            label: 'The Person Pivot',
+                            data: [25, 40, 50],
+                            backgroundColor: '#34A853' // Google Green
+                        },
+                        {
+                            label: 'External App Hopping',
+                            data: [35, 20, 15],
+                            backgroundColor: '#EA4335' // Google Red
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                boxWidth: 12
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            stacked: true,
+                            grid: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            stacked: true,
+                            beginAtZero: true,
+                            grid: {
+                                borderDash: [2, 4],
+                                color: '#E8EAED'
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 </html>
