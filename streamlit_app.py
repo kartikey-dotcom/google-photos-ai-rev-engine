@@ -29,6 +29,13 @@ st.warning("⚠️ **Note:** This application was built as a pure Frontend (HTML
 try:
     with open("streamlit_index.html", "r", encoding="utf-8") as f:
         html_code = f.read()
+        
+    # Bridge Streamlit Secrets (TOML) to the Frontend
+    if "GEMINI_API_KEY" in st.secrets:
+        injected_key = st.secrets["GEMINI_API_KEY"]
+        injection_script = f'<script>window.STREAMLIT_INJECTED_KEY = "{injected_key}";</script>'
+        html_code = html_code.replace('<head>', f'<head>\n{injection_script}')
+
     components.html(html_code, height=900, scrolling=True)
 except Exception as e:
     st.error(f"Failed to load frontend: {e}")

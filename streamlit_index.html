@@ -2808,6 +2808,17 @@ class ApiKeyCardComponent {
   }
 
   async tryLoadFromEnv() {
+    // 1. Check for Streamlit injected key via TOML secrets
+    if (window.STREAMLIT_INJECTED_KEY && window.STREAMLIT_INJECTED_KEY.length > 5) {
+      if (this.inputEl) {
+        this.inputEl.value = window.STREAMLIT_INJECTED_KEY;
+        this.updateStatus(true);
+        this.onKeyChange(window.STREAMLIT_INJECTED_KEY);
+      }
+      return;
+    }
+
+    // 2. Fallback to local .env fetch
     try {
       const resp = await fetch('.env');
       if (resp.ok) {
