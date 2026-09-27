@@ -20,7 +20,6 @@ hide_st_style = """
             """
 st.markdown(hide_st_style, unsafe_allow_html=True)
 
-st.warning("⚠️ **Note:** This application was built as a pure Frontend (HTML/CSS/JS) app. While this Streamlit wrapper allows it to deploy here, for the best performance and functionality (especially with local Javascript modules), we highly recommend deploying directly to **GitHub Pages**, **Vercel**, or **Netlify**.")
 
 # Note: Streamlit's components.html isolates the HTML in an iframe. 
 # Relative links to CSS and JS files in the repo often fail to load in Streamlit Cloud 
