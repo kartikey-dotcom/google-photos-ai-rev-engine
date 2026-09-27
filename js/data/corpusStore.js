@@ -84,6 +84,20 @@ export class CorpusStore {
   }
 
   /**
+   * Replace the entire corpus with a new dataset (e.g. from BigDataConnector)
+   * @param {Array<object>} newRecords 
+   */
+  replaceCorpus(newRecords) {
+    this.corpus = newRecords.map((rawRecord, index) => {
+      const validation = validateFeedbackRecord(rawRecord);
+      if (!validation.valid) {
+        return sanitizeFeedbackRecord(rawRecord, index + 1);
+      }
+      return rawRecord;
+    });
+  }
+
+  /**
    * Get detailed corpus summary for PM diagnostics
    * @returns {object}
    */

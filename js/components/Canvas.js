@@ -138,6 +138,11 @@ export class CanvasComponent {
     }
   }
 
+  updateLoadingMessage(message) {
+    this.stateStore.dispatch({ type: "UPDATE_LOADING_MESSAGE", loadingMessage: message });
+    this.loadingSkeleton.updateMessage(message);
+  }
+
   /**
    * Flash copy button with checkmark feedback
    */

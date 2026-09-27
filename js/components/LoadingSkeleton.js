@@ -59,6 +59,13 @@ export class LoadingSkeletonComponent {
     }
   }
 
+  updateMessage(message) {
+    this.clearTimer();
+    if (this.statusTextEl) {
+      this.statusTextEl.textContent = message;
+    }
+  }
+
   clearTimer() {
     if (this.timer) {
       clearInterval(this.timer);

@@ -111,6 +111,18 @@
           <span>Active Ingestion Corpus:</span>
           <span id="activeCorpusCount">7 of 7 Records</span>
         </div>
+
+        <div class="api-status-indicator configured" style="margin-top: 12px;">
+          <span class="api-status-dot"></span>
+          <span>Connected to VoC Database: 25,450 records</span>
+        </div>
+        <button type="button" class="workflow-btn" id="runPipelineBtn" style="margin-top: 8px; border-color: #188038;">
+          <div class="wf-header-line">
+            <span class="wf-title">🔄 Run Data Pipeline</span>
+            <span class="wf-tag" style="background-color: #e6f4ea; color: #188038;">Smart Sample</span>
+          </div>
+          <p class="wf-desc">Simulates querying the BigQuery data lake and dynamically sampling 150 diverse, high-signal reviews.</p>
+        </button>
       </section>
 
       <!-- Module 3: Analytical Workflows (Deterministic Buttons) -->

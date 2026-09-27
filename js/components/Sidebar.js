@@ -12,11 +12,20 @@ export class SidebarComponent {
    * @param {Function} options.onKeyChange
    * @param {Function} options.onSourceChange
    * @param {Function} options.onWorkflowTrigger
+   * @param {Function} options.onPipelineRun
    */
-  constructor({ onKeyChange, onSourceChange, onWorkflowTrigger }) {
+  constructor({ onKeyChange, onSourceChange, onWorkflowTrigger, onPipelineRun }) {
     this.apiKeyCard = new ApiKeyCardComponent({ onKeyChange });
     this.sourceSelector = new SourceSelectorComponent({ onSourceChange });
     this.workflowButtons = new WorkflowButtonsComponent({ onWorkflowTrigger });
+
+    const pipelineBtn = document.getElementById('runPipelineBtn');
+    if (pipelineBtn && onPipelineRun) {
+      pipelineBtn.addEventListener('click', () => {
+        onPipelineRun();
+      });
+    }
+    this.pipelineBtn = pipelineBtn;
   }
 
   updateCorpusCount(activeCount, totalCount) {
@@ -29,6 +38,9 @@ export class SidebarComponent {
 
   setButtonsDisabled(disabled) {
     this.workflowButtons.setDisabled(disabled);
+    if (this.pipelineBtn) {
+      this.pipelineBtn.disabled = disabled;
+    }
   }
 
   focusKeyInput() {
