@@ -27,7 +27,7 @@ st.warning("⚠️ **Note:** This application was built as a pure Frontend (HTML
 # because they aren't served by the Streamlit backend automatically. 
 # If the UI looks broken, it's because Streamlit is blocking the local CSS/JS files.
 try:
-    with open("index.html", "r", encoding="utf-8") as f:
+    with open("streamlit_index.html", "r", encoding="utf-8") as f:
         html_code = f.read()
     components.html(html_code, height=900, scrolling=True)
 except Exception as e:
