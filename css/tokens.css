@@ -3,12 +3,17 @@
      Google Material 3 / Internal PM Tool Design Tokens
      ========================================================================== */
 
-  /* Primary Brand Colors (Google Photos & Google Workspace) */
-  --google-blue: #1a73e8;
-  --google-blue-hover: #1765cc;
-  --google-blue-active: #1558b0;
-  --google-blue-light: #e8f0fe;
-  --google-blue-focus: rgba(26, 115, 232, 0.25);
+  /* Primary Brand Colors (Vibrant SaaS) */
+  --google-blue: #4318FF;
+  --google-blue-hover: #3911DB;
+  --google-blue-active: #2D0AA6;
+  --google-blue-light: #E9E3FF;
+  --google-blue-focus: rgba(67, 24, 255, 0.25);
+  
+  /* Vibrant Gradients */
+  --gradient-primary: linear-gradient(135deg, #4318FF 0%, #868CFF 100%);
+  --gradient-secondary: linear-gradient(135deg, #00C6FF 0%, #0072FF 100%);
+  --gradient-accent: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
 
   /* Google Palette Accents (for Pinwheel & Badges) */
   --google-red: #ea4335;
@@ -33,12 +38,12 @@
   --warning-text: #b06000;
 
   /* Neutral Background & Surface Colors */
-  --surface-canvas: #ffffff;
-  --surface-sidebar: #f8f9fa;
-  --surface-card: #ffffff;
-  --surface-hover: #f1f3f4;
-  --surface-active: #e8eaed;
-  --surface-code: #f1f3f4;
+  --surface-canvas: #F4F7FE;
+  --surface-sidebar: #F4F7FE;
+  --surface-card: #FFFFFF;
+  --surface-hover: #F8F9FA;
+  --surface-active: #F4F7FE;
+  --surface-code: #F4F7FE;
 
   /* Typography / Text Colors */
   --text-primary: #202124;
@@ -53,24 +58,24 @@
   --border-strong: #bdc1c6;
   --border-focus: #1a73e8;
 
-  /* Shadows (Google Material Elevation) */
-  --shadow-1: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
-  --shadow-2: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 2px 6px 2px rgba(60, 64, 67, 0.15);
-  --shadow-3: 0 1px 3px 0 rgba(60, 64, 67, 0.3), 0 4px 8px 3px rgba(60, 64, 67, 0.15);
-  --shadow-float: 0 4px 12px 0 rgba(60, 64, 67, 0.2);
+  /* Shadows (Soft SaaS Shadows) */
+  --shadow-1: 0px 18px 40px rgba(112, 144, 176, 0.12);
+  --shadow-2: 0px 20px 40px rgba(112, 144, 176, 0.18);
+  --shadow-3: 0px 30px 50px rgba(112, 144, 176, 0.22);
+  --shadow-float: 0px 40px 60px rgba(112, 144, 176, 0.25);
 
   /* Layout & Sizing */
   --header-height: 64px;
   --sidebar-width: 380px;
   --canvas-max-width: 920px;
-  --radius-xs: 4px;
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
+  --radius-xs: 6px;
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
   --radius-full: 9999px;
 
   /* Typography Scale */
-  --font-family-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Google Sans", sans-serif;
+  --font-family-sans: "Outfit", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-family-mono: "Roboto Mono", SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
   --font-size-xs: 0.75rem;    /* 12px */

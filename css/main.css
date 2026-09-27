@@ -40,8 +40,9 @@ html, body {
    ========================================================================== */
 .app-header {
   height: var(--header-height);
-  background-color: #FFFFFF;
-  border-bottom: 1px solid #DADCE0;
+  background-color: var(--surface-card);
+  border-bottom: none;
+  box-shadow: var(--shadow-1);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -536,13 +537,17 @@ html, body {
 }
 
 .idle-step-card {
-  background-color: #FFFFFF;
-  border: 1px solid var(--border-default);
-  border-radius: 8px;
+  background-color: var(--surface-card);
+  border: none;
+  border-radius: var(--radius-md);
   padding: 24px;
   flex: 1;
   min-width: 250px;
-  box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+  box-shadow: var(--shadow-2);
+  transition: transform var(--transition-normal);
+}
+.idle-step-card:hover {
+  transform: translateY(-4px);
 }
 
 .step-num {
@@ -844,15 +849,17 @@ html, body {
 
 /* === Sleek Sidebar Override === */
 .new-sidebar {
-  background: #f8f9fa !important;
-  border-right: 1px solid #dadce0 !important;
+  background: var(--surface-card) !important;
+  border-right: none !important;
+  box-shadow: 10px 0px 40px rgba(112, 144, 176, 0.08) !important;
   padding: 0 16px !important;
   display: flex !important;
   flex-direction: column !important;
   flex-shrink: 0 !important;
-  width: 320px !important;
+  width: 330px !important;
   overflow-y: auto !important;
   overflow-x: hidden !important;
+  z-index: 10;
 }
 
 .sidebar-top-header {
@@ -862,7 +869,7 @@ html, body {
 
 .sidebar-block {
   padding: 16px 24px;
-  border-bottom: 1px solid #dadce0;
+  border-bottom: 1px solid rgba(112, 144, 176, 0.15);
 }
 .sidebar-block:last-child {
   border-bottom: none;
@@ -931,16 +938,16 @@ html, body {
   display: flex;
   align-items: center;
   padding: 8px 12px;
-  border: 1px solid #dadce0;
-  border-radius: 16px;
-  background: #fff;
+  border: 1px solid rgba(112, 144, 176, 0.2);
+  border-radius: var(--radius-full);
+  background: var(--surface-card);
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: all 0.2s ease;
 }
 
 .source-pill.active {
-  border-color: #1a73e8;
-  background: #f4f8fe;
+  border-color: transparent;
+  background: var(--google-blue-light);
 }
 
 .source-pill.disabled {
@@ -987,19 +994,19 @@ html, body {
 }
 
 .wf-item.active {
-  background: #e8f0fe;
+  background: var(--google-blue-light);
   position: relative;
+  overflow: hidden;
 }
 
 .wf-item.active::before {
   content: '';
   position: absolute;
   left: 0;
-  top: 8px;
-  bottom: 8px;
-  width: 4px;
-  background: #1a73e8;
-  border-radius: 0 4px 4px 0;
+  top: 0;
+  bottom: 0;
+  width: 6px;
+  background: var(--gradient-primary);
 }
 
 .wf-title-new {
