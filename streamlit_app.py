@@ -35,6 +35,6 @@ try:
         injection_script = f'<script>window.STREAMLIT_INJECTED_KEY = "{injected_key}";</script>'
         html_code = html_code.replace('<head>', f'<head>\n{injection_script}')
 
-    components.html(html_code, height=900, scrolling=True)
+    components.html(html_code, height=1600, scrolling=False)
 except Exception as e:
     st.error(f"Failed to load frontend: {e}")
