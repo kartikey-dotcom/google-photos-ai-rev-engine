@@ -55,16 +55,18 @@
             <span>Google Core Analytics</span>
         </div>
         <div class="flex space-x-8 text-sm font-medium text-gray-600 ml-auto">
-            <a href="#" class="hover:text-google-blue transition">Query Health</a>
-            <a href="#" class="hover:text-google-blue transition">Index Telemetry</a>
-            <a href="#" class="text-google-blue border-b-2 border-google-blue pb-1 font-bold">Retrieval Friction</a>
-            <a href="#" class="hover:text-google-blue transition">Issue Tracker</a>
+            <a href="#" id="nav-query-health" onclick="switchTab('view-query-health')" class="nav-link hover:text-google-blue transition text-gray-600">Query Health</a>
+            <a href="#" id="nav-index-telemetry" onclick="switchTab('view-index-telemetry')" class="nav-link hover:text-google-blue transition text-gray-600">Index Telemetry</a>
+            <a href="#" id="nav-retrieval-friction" onclick="switchTab('view-retrieval-friction')" class="nav-link text-google-blue border-b-2 border-google-blue pb-1 font-bold">Retrieval Friction</a>
+            <a href="#" id="nav-issue-tracker" onclick="switchTab('view-issue-tracker')" class="nav-link hover:text-google-blue transition text-gray-600">Issue Tracker</a>
         </div>
     </nav>
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
         
-        <!-- Header -->
+        <!-- TAB: Retrieval Friction -->
+        <div id="view-retrieval-friction" class="tab-content">
+            <!-- Header -->
         <header class="mb-10 text-left">
             <h1 class="text-3xl font-normal text-gray-900">Google Photos: Memory Discovery Engine</h1>
             <p class="text-google-gray mt-2 text-lg">Internal discovery dashboard — semantic vs. episodic search failure analysis.</p>
@@ -184,12 +186,101 @@
                 </div>
             </div>
         </div>
-        
+        </div> <!-- End of TAB: Retrieval Friction -->
 
+        <!-- TAB: Query Health -->
+        <div id="view-query-health" class="tab-content hidden">
+            <header class="mb-10 text-left">
+                <h1 class="text-3xl font-normal text-gray-900">System Query Health</h1>
+            </header>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                <div class="card p-6 flex flex-col justify-between">
+                    <h3 class="text-xs font-bold text-google-gray uppercase tracking-wider mb-2">Zero-Result Rate (ZRR)</h3>
+                    <div class="text-4xl font-normal text-gray-900 mb-4">12.4%</div>
+                    <div><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">↑ +2.1% WoW</span></div>
+                </div>
+                <div class="card p-6 flex flex-col justify-between">
+                    <h3 class="text-xs font-bold text-google-gray uppercase tracking-wider mb-2">Search Abandonment</h3>
+                    <div class="text-4xl font-normal text-gray-900 mb-4">18.1%</div>
+                    <div><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">⚠️ Action Required</span></div>
+                </div>
+                <div class="card p-6 flex flex-col justify-between">
+                    <h3 class="text-xs font-bold text-google-gray uppercase tracking-wider mb-2">Avg. Time-to-Success</h3>
+                    <div class="text-4xl font-normal text-gray-900 mb-4">4.2s</div>
+                    <div><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">↓ -0.3s WoW</span></div>
+                </div>
+            </div>
+            <div class="card p-12 flex items-center justify-center h-72 border-gray-200 bg-white">
+                <p class="text-gray-400 italic">[ Time-Series Chart Visualization Loading... ]</p>
+            </div>
+        </div>
+
+        <!-- TAB: Index Telemetry -->
+        <div id="view-index-telemetry" class="tab-content hidden">
+            <header class="mb-10 text-left">
+                <h1 class="text-3xl font-normal text-gray-900">Core Index & Telemetry</h1>
+            </header>
+            <div class="card p-12 flex flex-col items-center justify-center text-center">
+                <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-6">
+                    <svg class="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                </div>
+                <h2 class="text-2xl font-medium text-gray-900 mb-2">Telemetry Systems Nominal</h2>
+                <p class="text-google-gray">Vector Embedding Latency: 142ms | Metadata Coverage: 89.4%</p>
+            </div>
+        </div>
+
+        <!-- TAB: Issue Tracker -->
+        <div id="view-issue-tracker" class="tab-content hidden">
+            <header class="mb-10 text-left">
+                <h1 class="text-3xl font-normal text-gray-900">Buganizer / Active Sprint</h1>
+            </header>
+            <div class="card overflow-hidden">
+                <table class="min-w-full divide-y divide-gray-200 text-left">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Ticket ID</th>
+                            <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+                            <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Priority</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200 text-sm">
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-google-blue hover:underline cursor-pointer">b/309182412</td>
+                            <td class="px-6 py-4">Build 'Progressive Disambiguation' MVP for Vague Semantic Recall</td>
+                            <td class="px-6 py-4"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">P1 - CRITICAL</span></td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-google-blue hover:underline cursor-pointer">b/309182444</td>
+                            <td class="px-6 py-4">Receipts misclassifying as Concert Tickets in Vision Model</td>
+                            <td class="px-6 py-4"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">P2 - HIGH</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
     </div>
 
     <script>
+        // Tab Navigation Logic
+        function switchTab(tabId) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            // Show selected tab
+            document.getElementById(tabId).classList.remove('hidden');
+
+            // Reset all nav links
+            const baseClass = "nav-link hover:text-google-blue transition text-gray-600";
+            const activeClass = "nav-link text-google-blue border-b-2 border-google-blue pb-1 font-bold";
+            
+            document.querySelectorAll('.nav-link').forEach(el => {
+                el.className = baseClass;
+            });
+
+            // Set active class
+            document.getElementById('nav-' + tabId.replace('view-', '')).className = activeClass;
+        }
+
         // Chart Configuration
         document.addEventListener("DOMContentLoaded", function() {
             
