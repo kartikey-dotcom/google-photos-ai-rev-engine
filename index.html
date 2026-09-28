@@ -41,7 +41,8 @@
         .card {
             background-color: white;
             border-radius: 12px;
-            box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            border: 1px solid #E8EAED;
         }
     </style>
 </head>
@@ -64,10 +65,8 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
         
         <!-- Header -->
-        <header class="mb-10">
-            <h1 class="text-3xl font-normal text-gray-900 flex items-center gap-3">
-                <span class="text-4xl">📸</span> Google Photos: Memory Discovery Engine
-            </h1>
+        <header class="mb-10 text-left">
+            <h1 class="text-3xl font-normal text-gray-900">Google Photos: Memory Discovery Engine</h1>
             <p class="text-google-gray mt-2 text-lg">Internal discovery dashboard — semantic vs. episodic search failure analysis.</p>
         </header>
 
@@ -85,7 +84,7 @@
             
             <div class="card p-6 flex flex-col justify-between">
                 <h3 class="text-xs font-bold text-google-gray uppercase tracking-wider mb-2">Primary Missing Metadata</h3>
-                <div class="text-4xl font-normal text-gray-900 mb-4">Absolute Dates</div>
+                <div class="text-2xl font-normal text-gray-900 mb-4">Absolute Dates</div>
                 <div>
                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
                         ⚠️ Forgotten 84% of time
@@ -95,7 +94,7 @@
 
             <div class="card p-6 flex flex-col justify-between">
                 <h3 class="text-xs font-bold text-google-gray uppercase tracking-wider mb-2">Dominant Friction Pattern</h3>
-                <div class="text-4xl font-normal text-gray-900 mb-4">Vague Semantic Recall</div>
+                <div class="text-2xl font-normal text-gray-900 mb-4">Vague Semantic Recall</div>
                 <div>
                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
                         🚨 Critical Action Needed
