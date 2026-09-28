@@ -54,11 +54,11 @@
             <svg class="w-6 h-6 text-google-blue" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
             <span>Google Core Analytics</span>
         </div>
-        <div class="flex space-x-8 text-sm font-medium text-gray-600">
-            <a href="#" class="hover:text-google-blue transition">Performance</a>
-            <a href="#" class="hover:text-google-blue transition">Traffic</a>
-            <a href="#" class="text-google-blue border-b-2 border-google-blue pb-1">Retrieval Friction</a>
-            <a href="#" class="hover:text-google-blue transition">Revenue</a>
+        <div class="flex space-x-8 text-sm font-medium text-gray-600 ml-auto">
+            <a href="#" class="hover:text-google-blue transition">Query Health</a>
+            <a href="#" class="hover:text-google-blue transition">Index Telemetry</a>
+            <a href="#" class="text-google-blue border-b-2 border-google-blue pb-1 font-bold">Retrieval Friction</a>
+            <a href="#" class="hover:text-google-blue transition">Issue Tracker</a>
         </div>
     </nav>
 
@@ -186,17 +186,17 @@
         </div>
         
         <!-- Strategic Recommendation Banner -->
-        <div class="bg-google-blueLight rounded-xl p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm mt-4">
-            <div class="flex-1">
+        <div class="bg-google-blueLight border border-[#D2E3FC] rounded-xl p-8 flex flex-col md:flex-row items-center justify-between gap-6 mt-8">
+            <div class="flex-1 max-w-4xl">
                 <h2 class="text-xl font-semibold text-[#202124] mb-2">
                     💡 Strategic Product Opportunity
                 </h2>
-                <p class="text-google-gray">
-                    Data indicates 'Vague Semantic Recall' is the primary retrieval blocker. Users remember episodic details, but lack exact keywords. Build a 'Progressive Contextual Disambiguation' MVP to allow AI-guided visual filtering.
+                <p class="text-[#5F6368]">
+                    Data indicates 'Vague Semantic Recall' is the primary retrieval blocker. Users remember rich episodic details (weather, vibes, people), but lack the exact metadata keywords the index demands. Build a 'Progressive Contextual Disambiguation' MVP to allow AI-guided visual filtering without forcing users into dead-end searches.
                 </p>
             </div>
             <div>
-                <button class="bg-google-blue hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-md shadow transition duration-150 ease-in-out whitespace-nowrap">
+                <button class="bg-google-blue hover:bg-[#1765CC] shadow text-white font-medium py-3 px-6 rounded-md transition duration-150 ease-in-out whitespace-nowrap">
                     View MVP Prototype
                 </button>
             </div>
@@ -250,7 +250,7 @@
                             }
                         }
                     },
-                    cutout: '75%'
+                    cutout: '80%'
                 }
             });
 
