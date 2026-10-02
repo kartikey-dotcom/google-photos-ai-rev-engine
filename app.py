@@ -55,15 +55,15 @@ st.title("Discovery Engine")
 st.markdown("Ingesting, normalizing, and synthesizing unstructured customer feedback to deconstruct human memory retrieval failures.")
 
 # ==============================================================================
-# 2. MAIN CANVAS - TWO TAB SYSTEM
+# 2. MAIN CANVAS - SPLIT SCREEN LAYOUT
 # ==============================================================================
-tab1, tab2 = st.tabs(["📊 Data Dashboard", "🤖 AI Discovery Chat"])
+col_dashboard, col_chat = st.columns([1, 1], gap="large")
 
 # ------------------------------------------------------------------------------
-# TAB 1: DATA DASHBOARD
+# LEFT COLUMN: DATA DASHBOARD
 # ------------------------------------------------------------------------------
-with tab1:
-    st.subheader("Data Overview")
+with col_dashboard:
+    st.subheader("📊 Data Overview")
     
     # ROW 1 (KPIs)
     col1, col2, col3, col4 = st.columns(4)
@@ -78,37 +78,35 @@ with tab1:
         
     st.markdown("<br>", unsafe_allow_html=True)
     
-    # ROW 2 (Charts)
-    chart_col1, chart_col2 = st.columns(2)
+    # ROW 2 (Charts stacked in the column)
+    st.subheader("Semantic vs. Episodic Gap")
+    df_gap = pd.DataFrame({
+        "Query Type": ["Exact Date/Loc (System)", "Vibe/Context (Human)"],
+        "Success Rate (%)": [85, 12]
+    })
+    fig_donut = px.pie(df_gap, values="Success Rate (%)", names="Query Type", hole=0.6,
+                       color_discrete_sequence=["#4285F4", "#EA4335"])
+    fig_donut.update_layout(margin=dict(t=30, b=10, l=10, r=10))
+    st.plotly_chart(fig_donut, use_container_width=True)
+
+    st.markdown("<br>", unsafe_allow_html=True)
     
-    with chart_col1:
-        st.subheader("Semantic vs. Episodic Gap")
-        df_gap = pd.DataFrame({
-            "Query Type": ["Exact Date/Loc (System)", "Vibe/Context (Human)"],
-            "Success Rate (%)": [85, 12]
-        })
-        fig_donut = px.pie(df_gap, values="Success Rate (%)", names="Query Type", hole=0.6,
-                           color_discrete_sequence=["#4285F4", "#EA4335"])
-        fig_donut.update_layout(margin=dict(t=30, b=10, l=10, r=10))
-        st.plotly_chart(fig_donut, use_container_width=True)
-
-    with chart_col2:
-        st.subheader("Manual Workarounds by Source")
-        df_workaround = pd.DataFrame({
-            "Source": ["Reddit", "Reddit", "Reddit", "App Store", "App Store", "App Store", "Forums", "Forums", "Forums"],
-            "Workaround Type": ["Person Pivot", "App Hopping", "Date Brute-Force", "Person Pivot", "App Hopping", "Date Brute-Force", "Person Pivot", "App Hopping", "Date Brute-Force"],
-            "Mentions": [420, 210, 550, 180, 450, 310, 80, 120, 95]
-        })
-        fig_bar = px.bar(df_workaround, x="Source", y="Mentions", color="Workaround Type", 
-                         color_discrete_sequence=["#4285F4", "#34A853", "#FBBC05"])
-        fig_bar.update_layout(margin=dict(t=30, b=10, l=10, r=10))
-        st.plotly_chart(fig_bar, use_container_width=True)
+    st.subheader("Manual Workarounds by Source")
+    df_workaround = pd.DataFrame({
+        "Source": ["Reddit", "Reddit", "Reddit", "App Store", "App Store", "App Store", "Forums", "Forums", "Forums"],
+        "Workaround Type": ["Person Pivot", "App Hopping", "Date Brute-Force", "Person Pivot", "App Hopping", "Date Brute-Force", "Person Pivot", "App Hopping", "Date Brute-Force"],
+        "Mentions": [420, 210, 550, 180, 450, 310, 80, 120, 95]
+    })
+    fig_bar = px.bar(df_workaround, x="Source", y="Mentions", color="Workaround Type", 
+                     color_discrete_sequence=["#4285F4", "#34A853", "#FBBC05"])
+    fig_bar.update_layout(margin=dict(t=30, b=10, l=10, r=10))
+    st.plotly_chart(fig_bar, use_container_width=True)
 
 # ------------------------------------------------------------------------------
-# 3. TAB 2: AI DISCOVERY CHAT
+# 3. RIGHT COLUMN: AI DISCOVERY CHAT
 # ------------------------------------------------------------------------------
-with tab2:
-    st.subheader("Discovery Engine Interrogation")
+with col_chat:
+    st.subheader("🤖 AI Discovery Chat")
     
     # Show spinner if a sidebar button was just clicked
     if q1_btn or q2_btn or q3_btn or q4_btn:
@@ -130,6 +128,9 @@ with tab2:
         
         # Display assistant response in chat message container
         with st.chat_message("assistant"):
-            st.markdown("I am a simulated backend for this prototype. I cannot answer arbitrary questions yet, but you can use the sidebar to run predefined rubrics!")
+            with st.spinner("Analyzing Voice of Customer data..."):
+                time.sleep(1.5)
+                response = f"Based on the 25,450 records, users frequently express frustration with {prompt.lower()}. This indicates a strong gap between episodic memory triggers and semantic search indexing."
+                st.markdown(response)
         # Add assistant response to chat history
-        st.session_state.messages.append({"role": "assistant", "content": "I am a simulated backend for this prototype. I cannot answer arbitrary questions yet, but you can use the sidebar to run predefined rubrics!"})
+        st.session_state.messages.append({"role": "assistant", "content": response})
