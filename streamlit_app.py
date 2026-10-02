@@ -3,17 +3,13 @@ import pandas as pd
 import plotly.express as px
 import time
 
-st.set_page_config(page_title="VoC Discovery Engine", page_icon="🔍", layout="wide")
+st.set_page_config(page_title="Discovery Engine", page_icon="🔍", layout="wide")
 
 # ==============================================================================
 # 1. SIDEBAR CLEANUP
 # ==============================================================================
-# Use columns to position the image on the top right of the sidebar
-_, logo_col = st.sidebar.columns([3, 1])
-with logo_col:
-    st.image("logo.svg", width=60)
-
-st.sidebar.title("Google Photos VoC")
+st.sidebar.image("logo.svg", width=60)
+st.sidebar.title("Google Photos")
 st.sidebar.markdown("---")
 
 st.sidebar.subheader("Ingestion Sources")
@@ -55,7 +51,7 @@ elif q4_btn:
 # ==============================================================================
 # MAIN CANVAS - HEADER
 # ==============================================================================
-st.title("VoC Discovery Engine")
+st.title("Discovery Engine")
 st.markdown("Ingesting, normalizing, and synthesizing unstructured customer feedback to deconstruct human memory retrieval failures.")
 
 # ==============================================================================
