@@ -128,61 +128,87 @@
         <div class="mb-10">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-2xl font-normal text-gray-900">Verbatim Evidence</h2>
-                <select class="block w-48 pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-google-blue focus:border-google-blue sm:text-sm rounded-md shadow-sm bg-white border">
-                    <option>All Sources</option>
-                    <option>Reddit</option>
-                    <option>App Store</option>
-                    <option>Support Forum</option>
-                </select>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- Card 1 -->
-                <div class="card p-6 border-l-4 border-l-google-blue relative">
+                <div class="card p-6 border-l-4 border-l-google-blue relative verbatim-card">
                     <div class="absolute top-4 right-4">
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">Reddit</span>
+                        <span class="source-badge inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">Reddit</span>
                     </div>
                     <p class="text-gray-700 italic mt-4">"I just wanted that photo of the pasta in Rome, but searching 'pasta' gives me recipes. I know I was wearing my red jacket. Scrolled for 10 mins."</p>
                 </div>
 
                 <!-- Card 2 -->
-                <div class="card p-6 border-l-4 border-l-google-blue relative">
+                <div class="card p-6 border-l-4 border-l-google-blue relative verbatim-card">
                     <div class="absolute top-4 right-4">
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">App Store</span>
+                        <span class="source-badge inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">App Store</span>
                     </div>
                     <p class="text-gray-700 italic mt-4">"Searching is useless if I don't know the exact date. I remember the vibe of a purple sunset, why can't I search 'purple sunset with two people'?"</p>
                 </div>
 
                 <!-- Card 3 -->
-                <div class="card p-6 border-l-4 border-l-google-blue relative">
+                <div class="card p-6 border-l-4 border-l-google-blue relative verbatim-card">
                     <div class="absolute top-4 right-4">
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">Support Forum</span>
+                        <span class="source-badge inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">Support Forum</span>
                     </div>
                     <p class="text-gray-700 italic mt-4">"How do I filter OUT screenshots? Every time I search 'concert', I get 200 screenshots of Spotify playlists instead of my friends."</p>
                 </div>
 
                 <!-- Card 4 -->
-                <div class="card p-6 border-l-4 border-l-google-blue relative">
+                <div class="card p-6 border-l-4 border-l-google-blue relative verbatim-card">
                     <div class="absolute top-4 right-4">
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">Reddit</span>
+                        <span class="source-badge inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">Reddit</span>
                     </div>
                     <p class="text-gray-700 italic mt-4">"Had to check WhatsApp to find the date I texted my mechanic about a tire issue, just so I could find the photo in Google Photos by date."</p>
                 </div>
 
                 <!-- Card 5 -->
-                <div class="card p-6 border-l-4 border-l-google-blue relative">
+                <div class="card p-6 border-l-4 border-l-google-blue relative verbatim-card">
                     <div class="absolute top-4 right-4">
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">Play Store</span>
+                        <span class="source-badge inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">Play Store</span>
                     </div>
                     <p class="text-gray-700 italic mt-4">"I know my dog was sleeping on my messy desk, but searching 'dog' shows 4,000 photos. I just want to search by the background."</p>
                 </div>
 
                 <!-- Card 6 -->
-                <div class="card p-6 border-l-4 border-l-google-blue relative">
+                <div class="card p-6 border-l-4 border-l-google-blue relative verbatim-card">
                     <div class="absolute top-4 right-4">
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">App Store</span>
+                        <span class="source-badge inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">App Store</span>
                     </div>
                     <p class="text-gray-700 italic mt-4">"I couldn't search for that cozy rainy feeling... I had to strip away all the emotional context to search like a robot."</p>
+                </div>
+
+                <!-- Card 7 -->
+                <div class="card p-6 border-l-4 border-l-google-blue relative verbatim-card">
+                    <div class="absolute top-4 right-4">
+                        <span class="source-badge inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">Play Store</span>
+                    </div>
+                    <p class="text-gray-700 italic mt-4">"The app is useless if I can't search for 'that one time at the beach with the green umbrella'. It only shows me generic beach photos."</p>
+                </div>
+
+                <!-- Card 8 -->
+                <div class="card p-6 border-l-4 border-l-google-blue relative verbatim-card">
+                    <div class="absolute top-4 right-4">
+                        <span class="source-badge inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">Support Forum</span>
+                    </div>
+                    <p class="text-gray-700 italic mt-4">"It keeps tagging my dog as a cat. And when I search for my dog, it brings up photos of my neighbor's cat. Frustrating!"</p>
+                </div>
+
+                <!-- Card 9 -->
+                <div class="card p-6 border-l-4 border-l-google-blue relative verbatim-card">
+                    <div class="absolute top-4 right-4">
+                        <span class="source-badge inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">Reddit</span>
+                    </div>
+                    <p class="text-gray-700 italic mt-4">"I remember my friend was wearing a silly hat in a cafe. Searched 'silly hat cafe' and got zero results. Had to scroll back to 2018."</p>
+                </div>
+
+                <!-- Card 10 -->
+                <div class="card p-6 border-l-4 border-l-google-blue relative verbatim-card">
+                    <div class="absolute top-4 right-4">
+                        <span class="source-badge inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">App Store</span>
+                    </div>
+                    <p class="text-gray-700 italic mt-4">"I want to find the photo of the recipe I took a picture of, but searching for the dish name brings up pictures of me eating."</p>
                 </div>
             </div>
         </div>
@@ -210,8 +236,68 @@
                     <div><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">↓ -0.3s WoW</span></div>
                 </div>
             </div>
-            <div class="card p-12 flex items-center justify-center h-72 border-gray-200 bg-white">
-                <p class="text-gray-400 italic">[ Time-Series Chart Visualization Loading... ]</p>
+            <div class="card bg-white flex flex-col">
+                <!-- 1. Chart Card Header -->
+                <div class="flex justify-between items-center px-6 py-4 border-b border-[#E8EAED]">
+                    <h2 class="text-gray-800 font-semibold text-lg">30-Day Query Failure Trend</h2>
+                    <button class="flex items-center space-x-1 text-sm text-gray-600 border border-gray-300 rounded px-3 py-1 hover:bg-gray-50 transition">
+                        <span>Last 30 Days</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                </div>
+
+                <!-- 2. Mock Chart Layout -->
+                <div class="p-6 flex flex-col">
+                    <div class="flex">
+                        <!-- Y-Axis -->
+                        <div class="flex flex-col justify-between items-end text-xs text-[#80868b] pr-4 h-64 pb-6">
+                            <span>20%</span>
+                            <span>15%</span>
+                            <span>10%</span>
+                            <span>5%</span>
+                            <span>0%</span>
+                        </div>
+                        
+                        <!-- Chart Grid Area -->
+                        <div class="flex-1 flex flex-col">
+                            <!-- Bars container -->
+                            <div class="flex flex-row items-end justify-between h-64 border-b border-gray-200 border-dashed pb-1">
+                                <div class="w-4 bg-google-blue rounded-t-sm hover:opacity-80 transition h-[30%]"></div>
+                                <div class="w-4 bg-google-blue rounded-t-sm hover:opacity-80 transition h-[35%]"></div>
+                                <div class="w-4 bg-google-blue rounded-t-sm hover:opacity-80 transition h-[40%]"></div>
+                                <div class="w-4 bg-google-blue rounded-t-sm hover:opacity-80 transition h-[25%]"></div>
+                                <div class="w-4 bg-google-blue rounded-t-sm hover:opacity-80 transition h-[30%]"></div>
+                                <div class="w-4 bg-google-blue rounded-t-sm hover:opacity-80 transition h-[45%]"></div>
+                                <div class="w-4 bg-google-blue rounded-t-sm hover:opacity-80 transition h-[60%]"></div>
+                                <div class="w-4 bg-google-blue rounded-t-sm hover:opacity-80 transition h-[55%]"></div>
+                                <div class="w-4 bg-google-blue rounded-t-sm hover:opacity-80 transition h-[50%]"></div>
+                                <div class="w-4 bg-google-blue rounded-t-sm hover:opacity-80 transition h-[65%]"></div>
+                                <div class="w-4 bg-google-blue rounded-t-sm hover:opacity-80 transition h-[70%]"></div>
+                                <div class="w-4 bg-google-blue rounded-t-sm hover:opacity-80 transition h-[80%]"></div>
+                                <div class="w-4 bg-google-blue rounded-t-sm hover:opacity-80 transition h-[75%]"></div>
+                                <div class="w-4 bg-google-blue rounded-t-sm hover:opacity-80 transition h-[85%]"></div>
+                                <div class="w-4 bg-google-blue rounded-t-sm hover:opacity-80 transition h-[90%]"></div>
+                                <div class="w-4 bg-google-blue rounded-t-sm hover:opacity-80 transition h-[60%]"></div>
+                                <div class="w-4 bg-google-blue rounded-t-sm hover:opacity-80 transition h-[50%]"></div>
+                                <div class="w-4 bg-google-blue rounded-t-sm hover:opacity-80 transition h-[40%]"></div>
+                            </div>
+                            <!-- X-Axis -->
+                            <div class="flex justify-between text-xs text-[#80868b] mt-2">
+                                <span>Oct 1</span>
+                                <span>Oct 8</span>
+                                <span>Oct 15</span>
+                                <span>Oct 22</span>
+                                <span>Oct 30</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 3. Chart Legend -->
+                    <div class="flex items-center justify-center mt-6 space-x-2">
+                        <div class="w-3 h-3 rounded-full bg-google-blue"></div>
+                        <span class="text-sm text-gray-600">Search Abandonment Rate</span>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -280,6 +366,8 @@
             // Set active class
             document.getElementById('nav-' + tabId.replace('view-', '')).className = activeClass;
         }
+
+        // Verbatim Filter Logic removed
 
         // Chart Configuration
         document.addEventListener("DOMContentLoaded", function() {
