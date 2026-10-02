@@ -8,7 +8,11 @@ st.set_page_config(page_title="VoC Discovery Engine", page_icon="🔍", layout="
 # ==============================================================================
 # 1. SIDEBAR CLEANUP
 # ==============================================================================
-st.sidebar.image("https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Google_Photos_icon_%282020%29.svg/512px-Google_Photos_icon_%282020%29.svg.png", width=50)
+# Use columns to position the image on the top right of the sidebar
+_, logo_col = st.sidebar.columns([3, 1])
+with logo_col:
+    st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Google_Photos_icon_%282020%29.svg/512px-Google_Photos_icon_%282020%29.svg.png", width=60)
+
 st.sidebar.title("Google Photos VoC")
 st.sidebar.markdown("---")
 
