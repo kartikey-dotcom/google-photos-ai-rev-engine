@@ -11,7 +11,7 @@ st.set_page_config(page_title="VoC Discovery Engine", page_icon="🔍", layout="
 # Use columns to position the image on the top right of the sidebar
 _, logo_col = st.sidebar.columns([3, 1])
 with logo_col:
-    st.image("https://upload.wikimedia.org/wikipedia/commons/c/c2/Google_Photos_icon_%282020%29.svg", width=60)
+    st.image("logo.svg", width=60)
 
 st.sidebar.title("Google Photos VoC")
 st.sidebar.markdown("---")
