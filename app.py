@@ -26,14 +26,12 @@ st.markdown("""
 <style>
     /* 1. Global Typography */
     @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
-    @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
-    @import url('https://fonts.googleapis.com/icon?family=Material+Symbols+Rounded');
     
-    html, body, [class*="st-"] {
-        font-family: 'Roboto', sans-serif;
-    }
-
-    h1, h2, h3, h4, h5, h6, p, .stMarkdown {
+    /* Apply Roboto only to typography and metrics */
+    h1, h2, h3, h4, h5, h6, p, label, li,
+    [data-testid="stMarkdownContainer"],
+    [data-testid="stMetricValue"],
+    [data-testid="stMetricLabel"] {
         font-family: 'Roboto', sans-serif !important;
     }
 
@@ -73,14 +71,14 @@ st.markdown("""
     }
     
     /* 5. Restore Streamlit Icons */
-    .material-icons,
-    .material-symbols-rounded,
-    [data-testid="collapsedControl"],
-    [data-testid="collapsedControl"] *,
-    [data-testid="baseButton-header"],
-    [data-testid="baseButton-header"] *,
-    button[kind="header"] * {
-        font-family: 'Material Symbols Rounded', 'Material Icons', sans-serif !important;
+    @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0');
+    
+    /* Force Material font on the header and sidebar toggles */
+    header [data-testid="collapsedControl"],
+    header [data-testid="collapsedControl"] span,
+    header [data-testid="collapsedControl"] div,
+    header [data-testid="baseButton-header"] span {
+        font-family: 'Material Symbols Rounded', sans-serif !important;
     }
 </style>
 """, unsafe_allow_html=True)
