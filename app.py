@@ -26,6 +26,8 @@ st.markdown("""
 <style>
     /* 1. Global Typography */
     @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+    @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+    @import url('https://fonts.googleapis.com/icon?family=Material+Symbols+Rounded');
     
     html, body, [class*="st-"] {
         font-family: 'Roboto', sans-serif;
@@ -71,7 +73,13 @@ st.markdown("""
     }
     
     /* 5. Restore Streamlit Icons */
-    .material-icons, .material-symbols-rounded, [data-testid="collapsedControl"], [data-testid="collapsedControl"] * {
+    .material-icons,
+    .material-symbols-rounded,
+    [data-testid="collapsedControl"],
+    [data-testid="collapsedControl"] *,
+    [data-testid="baseButton-header"],
+    [data-testid="baseButton-header"] *,
+    button[kind="header"] * {
         font-family: 'Material Symbols Rounded', 'Material Icons', sans-serif !important;
     }
 </style>
