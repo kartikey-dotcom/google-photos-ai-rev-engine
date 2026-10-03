@@ -151,7 +151,7 @@ if "current_view" not in st.session_state:
 q1_btn = q2_btn = q3_btn = q4_btn = False
 
 st.sidebar.image("logo.svg", width=60)
-st.sidebar.title("Google Photos")
+st.sidebar.title("Recall Lens")
 st.sidebar.markdown("---")
 
 if st.session_state.current_view == "📊 Data Overview":
