@@ -38,6 +38,13 @@ q2_btn = st.sidebar.button("What information do people actually remember about a
 q3_btn = st.sidebar.button("What information have they forgotten?")
 q4_btn = st.sidebar.button("How do users formulate searches when their memory is incomplete?")
 
+st.sidebar.divider()
+if st.sidebar.button("🔄 Restart Chat", use_container_width=True):
+    st.session_state.messages = [
+        {"role": "assistant", "content": "Hello! I have ingested 25,450 user reviews from Reddit, App Stores, and Forums regarding Google Photos search failures. Click a question in the sidebar, or ask me anything."}
+    ]
+    st.rerun()
+
 # ==============================================================================
 # 2. INTERACTIVE PYTHON LOGIC & STATE MANAGEMENT
 # ==============================================================================
