@@ -19,10 +19,10 @@ src_forums = st.sidebar.checkbox("Google Support Forums", value=True)
 
 st.sidebar.markdown("---")
 st.sidebar.subheader("Rubric Execution")
-q1_btn = st.sidebar.button("Q1: What kinds of old photos are lost?")
-q2_btn = st.sidebar.button("Q2: What do people actually remember?")
-q3_btn = st.sidebar.button("Q3: What metadata is forgotten?")
-q4_btn = st.sidebar.button("Q4: How do users formulate searches?")
+q1_btn = st.sidebar.button("What kinds of old photos do users struggle to retrieve?")
+q2_btn = st.sidebar.button("What information do people actually remember about a photo?")
+q3_btn = st.sidebar.button("What information have they forgotten?")
+q4_btn = st.sidebar.button("How do users formulate searches when their memory is incomplete?")
 
 # ==============================================================================
 # 2. INTERACTIVE PYTHON LOGIC & STATE MANAGEMENT
@@ -42,16 +42,16 @@ if q1_btn or q2_btn or q3_btn or q4_btn:
 
 # 3. REQUIRED PRE-DEFINED AI RESPONSES
 if q1_btn:
-    st.session_state.messages.append({"role": "user", "content": "Q1: What kinds of old photos are lost?"})
+    st.session_state.messages.append({"role": "user", "content": "What kinds of old photos do users struggle to retrieve?"})
     st.session_state.messages.append({"role": "assistant", "content": """**Utility Screenshots, Vibe/Aesthetic moments, and Incidental background objects** are the most common lost items.\n\n*Simulated Quote:* "I just want to find a photo based on the rainy weather, not the date." """})
 elif q2_btn:
-    st.session_state.messages.append({"role": "user", "content": "Q2: What do people actually remember?"})
+    st.session_state.messages.append({"role": "user", "content": "What information do people actually remember about a photo?"})
     st.session_state.messages.append({"role": "assistant", "content": """Users remember **Episodic data** such as:\n- Weather\n- Clothing\n- People present\n- Emotions and vibes\n\n*Simulated Quote:* "I remember the vibe of a purple sunset, why can't I search 'purple sunset with two people'?"""})
 elif q3_btn:
-    st.session_state.messages.append({"role": "user", "content": "Q3: What metadata is forgotten?"})
+    st.session_state.messages.append({"role": "user", "content": "What information have they forgotten?"})
     st.session_state.messages.append({"role": "assistant", "content": """Users almost always forget **Semantic/System data** such as:\n- Absolute dates\n- Exact location names\n- File types\n\n*Simulated Quote:* "Searching is useless if I don't know the exact date. I just know it was 4 years ago." """})
 elif q4_btn:
-    st.session_state.messages.append({"role": "user", "content": "Q4: How do users formulate searches?"})
+    st.session_state.messages.append({"role": "user", "content": "How do users formulate searches when their memory is incomplete?"})
     st.session_state.messages.append({"role": "assistant", "content": """Users rely on manual workarounds:\n- **The Person Pivot:** Users search for a known friend's face to anchor the timeline, then manually scroll to find a coffee cup.\n\n*Simulated Quote:* "Had to check WhatsApp to find the date I texted my mechanic about a tire issue, just so I could find the photo in Google Photos by date." """})
 
 
