@@ -80,6 +80,64 @@ st.markdown("""
     header [data-testid="baseButton-header"] span {
         font-family: 'Material Symbols Rounded', sans-serif !important;
     }
+
+    /* Modern App Background */
+    .stApp {
+        background-color: #F8F9FA;
+    }
+    
+    /* Sleek Custom Scrollbars */
+    ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: #DADCE0;
+        border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: #BDC1C6;
+    }
+    
+    /* Vibrant Google Action Buttons */
+    .stButton > button {
+        background-color: #1A73E8 !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 24px !important;
+        padding: 10px 24px !important;
+        font-weight: 500 !important;
+        box-shadow: 0 4px 6px rgba(26, 115, 232, 0.2) !important;
+        transition: all 0.3s ease !important;
+    }
+    .stButton > button:hover {
+        background-color: #1557B0 !important;
+        box-shadow: 0 6px 12px rgba(26, 115, 232, 0.3) !important;
+        transform: translateY(-2px) !important;
+    }
+    
+    /* Floating Chat Input Box */
+    [data-testid="stChatInput"] {
+        border-radius: 24px !important;
+        border: 1px solid #E8EAED !important;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.08) !important;
+        background-color: #FFFFFF !important;
+    }
+    
+    /* Deeper Metric Card Shadows */
+    [data-testid="stMetricValue"], [data-testid="stMetricLabel"] {
+        z-index: 1;
+    }
+    [data-testid="stMetric"] {
+        background: #FFFFFF;
+        border-radius: 16px;
+        padding: 20px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.04);
+        border: 1px solid #F1F3F4;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -186,7 +244,7 @@ if st.session_state.current_view == "📊 Data Overview":
         })
         fig_donut = px.pie(df_gap, values="Success Rate (%)", names="Query Type", hole=0.6,
                            color_discrete_sequence=["#4285F4", "#EA4335"])
-        fig_donut.update_layout(margin=dict(t=30, b=10, l=10, r=10))
+        fig_donut.update_layout(margin=dict(t=30, b=10, l=10, r=10), paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")
         st.plotly_chart(fig_donut, use_container_width=True)
 
     with chart_col2:
@@ -198,7 +256,7 @@ if st.session_state.current_view == "📊 Data Overview":
         })
         fig_bar = px.bar(df_workaround, x="Source", y="Mentions", color="Workaround Type", 
                          color_discrete_sequence=["#4285F4", "#34A853", "#FBBC05"])
-        fig_bar.update_layout(margin=dict(t=30, b=10, l=10, r=10))
+        fig_bar.update_layout(margin=dict(t=30, b=10, l=10, r=10), paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")
         st.plotly_chart(fig_bar, use_container_width=True)
 
 elif st.session_state.current_view == "🤖 AI Discovery Chat":
