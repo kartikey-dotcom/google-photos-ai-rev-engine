@@ -27,7 +27,11 @@ st.markdown("""
     /* 1. Global Typography */
     @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
     
-    html, body, [class*="st-"], [class*="css"], h1, h2, h3, p, span, div {
+    html, body, [class*="st-"] {
+        font-family: 'Roboto', sans-serif;
+    }
+
+    h1, h2, h3, h4, h5, h6, p, .stMarkdown {
         font-family: 'Roboto', sans-serif !important;
     }
 
