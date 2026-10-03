@@ -196,19 +196,20 @@ elif st.session_state.current_view == "🤖 AI Discovery Chat":
             
     # Display chat messages from history on app rerun
     for message in st.session_state.messages:
-        with st.chat_message(message["role"]):
+        avatar = "✨" if message["role"] == "assistant" else "👤"
+        with st.chat_message(message["role"], avatar=avatar):
             st.markdown(message["content"])
 
     # Accept user input (st.chat_input)
     if prompt := st.chat_input("Ask a follow-up question..."):
         # Display user message in chat message container
-        with st.chat_message("user"):
+        with st.chat_message("user", avatar="👤"):
             st.markdown(prompt)
         # Add user message to chat history
         st.session_state.messages.append({"role": "user", "content": prompt})
         
         # Display assistant response in chat message container
-        with st.chat_message("assistant"):
+        with st.chat_message("assistant", avatar="✨"):
             with st.spinner("Analyzing semantic intent and querying VoC index..."):
                 time.sleep(1.5)
                 response = get_ai_response(prompt)
