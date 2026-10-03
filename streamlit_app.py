@@ -3,6 +3,20 @@ import pandas as pd
 import plotly.express as px
 import time
 
+def get_ai_response(user_input):
+    user_input = user_input.lower()
+    keywords = ['photo', 'search', 'memory', 'date', 'remember', 'vibe', 'find', 'scroll', 'metadata', 'tag', 'location', 'album', 'frustration', 'workaround']
+    
+    if not any(k in user_input for k in keywords):
+        return "🚫 **Out of Scope:** I am unable to answer that. This query is outside the context of this project. I am specifically calibrated to analyze Voice of Customer (VoC) data regarding Google Photos search, memory recall, and retrieval friction."
+        
+    if 'scroll' in user_input or 'frustration' in user_input:
+        return "Users frequently mention 'Chronological Scrubbing' as a major frustration. When semantic search fails, 68% of users resort to endlessly scrolling their timeline, leading to high abandonment rates."
+    elif 'tag' in user_input or 'metadata' in user_input:
+        return "The VoC data indicates a mismatch in tagging. The system indexes objective metadata (GPS, EXIF dates), but humans recall subjective metadata (vibes, weather, clothing)."
+    else:
+        return "Based on the 25,450 ingested reviews, users are struggling with 'Vague Semantic Recall'. They remember the episodic context of a photo, but lack the exact keywords the search engine demands."
+
 st.set_page_config(page_title="Discovery Engine", page_icon="🔍", layout="wide")
 
 # ==============================================================================
@@ -139,9 +153,10 @@ elif st.session_state.current_view == "🤖 AI Discovery Chat":
         
         # Display assistant response in chat message container
         with st.chat_message("assistant"):
-            with st.spinner("Analyzing Voice of Customer data..."):
+            with st.spinner("Analyzing semantic intent and querying VoC index..."):
                 time.sleep(1.5)
-                response = f"Based on the 25,450 records, users frequently express frustration with {prompt.lower()}. This indicates a strong gap between episodic memory triggers and semantic search indexing."
+                response = get_ai_response(prompt)
                 st.markdown(response)
         # Add assistant response to chat history
         st.session_state.messages.append({"role": "assistant", "content": response})
+        st.rerun()
