@@ -20,6 +20,55 @@ def get_ai_response(user_input):
 st.set_page_config(page_title="Discovery Engine", page_icon="🔍", layout="wide")
 
 # ==============================================================================
+# 0. GOOGLE MATERIAL 3 RESKIN (CSS INJECTION)
+# ==============================================================================
+st.markdown("""
+<style>
+    /* 1. Global Typography */
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+    
+    html, body, [class*="st-"], [class*="css"], h1, h2, h3, p, span, div {
+        font-family: 'Roboto', sans-serif !important;
+    }
+
+    /* 2. Elevated KPI Cards */
+    [data-testid="stMetric"] {
+        background-color: #FFFFFF !important;
+        border-radius: 12px !important;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05) !important;
+        padding: 15px !important;
+        border-top: 4px solid #1A73E8 !important;
+    }
+
+    /* 3. Tactile Sidebar Buttons */
+    .stButton > button {
+        border-radius: 24px !important;
+        border: 1px solid #DADCE0 !important;
+        background-color: #FFFFFF !important;
+        color: #3C4043 !important;
+        font-weight: 500 !important;
+        transition: all 0.3s ease !important;
+        padding: 10px 15px !important;
+    }
+
+    .stButton > button:hover {
+        transform: translateY(-2px) !important;
+        border-color: #1A73E8 !important;
+        color: #1A73E8 !important;
+        box-shadow: 0 4px 8px rgba(26,115,232,0.15) !important;
+    }
+
+    /* 4. Premium Chat Bubbles */
+    [data-testid="stChatMessage"] {
+        background-color: #F0F4F9 !important;
+        border-radius: 12px !important;
+        padding: 15px !important;
+        margin-bottom: 10px !important;
+    }
+</style>
+""", unsafe_allow_html=True)
+
+# ==============================================================================
 # 1. SIDEBAR CLEANUP
 # ==============================================================================
 st.sidebar.image("logo.svg", width=60)
