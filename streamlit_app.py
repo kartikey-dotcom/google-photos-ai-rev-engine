@@ -142,30 +142,37 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ==============================================================================
-# 1. SIDEBAR CLEANUP
+# 1. SIDEBAR CLEANUP & CONDITIONAL RENDERING
 # ==============================================================================
+if "current_view" not in st.session_state:
+    st.session_state.current_view = "📊 Data Overview"
+
+# Initialize buttons to False so logic doesn't break when hidden
+q1_btn = q2_btn = q3_btn = q4_btn = False
+
 st.sidebar.image("logo.svg", width=60)
 st.sidebar.title("Google Photos")
 st.sidebar.markdown("---")
 
-st.sidebar.subheader("Ingestion Sources")
-src_reddit = st.sidebar.checkbox("r/GooglePhotos (Reddit)", value=True)
-src_appstore = st.sidebar.checkbox("App Store Reviews", value=True)
-src_forums = st.sidebar.checkbox("Google Support Forums", value=True)
+if st.session_state.current_view == "📊 Data Overview":
+    st.sidebar.subheader("Ingestion Sources")
+    src_reddit = st.sidebar.checkbox("r/GooglePhotos (Reddit)", value=True)
+    src_appstore = st.sidebar.checkbox("App Store Reviews", value=True)
+    src_forums = st.sidebar.checkbox("Google Support Forums", value=True)
 
-st.sidebar.markdown("---")
-st.sidebar.subheader("Rubric Execution")
-q1_btn = st.sidebar.button("What kinds of old photos do users struggle to retrieve?")
-q2_btn = st.sidebar.button("What information do people actually remember about a photo?")
-q3_btn = st.sidebar.button("What information have they forgotten?")
-q4_btn = st.sidebar.button("How do users formulate searches when their memory is incomplete?")
-
-st.sidebar.divider()
-if st.sidebar.button("🔄 Restart Chat", use_container_width=True):
-    st.session_state.messages = [
-        {"role": "assistant", "content": "Hello! I have ingested 25,450 user reviews from Reddit, App Stores, and Forums regarding Google Photos search failures. Click a question in the sidebar, or ask me anything."}
-    ]
-    st.rerun()
+elif st.session_state.current_view == "🤖 AI Discovery Chat":
+    st.sidebar.subheader("Rubric Execution")
+    q1_btn = st.sidebar.button("What kinds of old photos do users struggle to retrieve?")
+    q2_btn = st.sidebar.button("What information do people actually remember about a photo?")
+    q3_btn = st.sidebar.button("What information have they forgotten?")
+    q4_btn = st.sidebar.button("How do users formulate searches when their memory is incomplete?")
+    
+    st.sidebar.divider()
+    if st.sidebar.button("🔄 Restart Chat", use_container_width=True):
+        st.session_state.messages = [
+            {"role": "assistant", "content": "Hello! I have ingested 25,450 user reviews from Reddit, App Stores, and Forums regarding Google Photos search failures. Click a question in the sidebar, or ask me anything."}
+        ]
+        st.rerun()
 
 # ==============================================================================
 # 2. INTERACTIVE PYTHON LOGIC & STATE MANAGEMENT
@@ -176,8 +183,7 @@ if "messages" not in st.session_state:
         {"role": "assistant", "content": "Hello! I have ingested 25,450 user reviews from Reddit, App Stores, and Forums regarding Google Photos search failures. Click a question in the sidebar, or ask me anything."}
     ]
 
-if "current_view" not in st.session_state:
-    st.session_state.current_view = "📊 Data Overview"
+
 
 # Smart Sidebar Logic
 if q1_btn or q2_btn or q3_btn or q4_btn:
