@@ -65,6 +65,11 @@ st.markdown("""
         padding: 15px !important;
         margin-bottom: 10px !important;
     }
+    
+    /* 5. Restore Streamlit Icons */
+    .material-icons, .material-symbols-rounded, [data-testid="collapsedControl"], [data-testid="collapsedControl"] * {
+        font-family: 'Material Symbols Rounded', 'Material Icons', sans-serif !important;
+    }
 </style>
 """, unsafe_allow_html=True)
 
