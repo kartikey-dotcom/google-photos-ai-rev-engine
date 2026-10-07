@@ -150,10 +150,10 @@ st.markdown("Enterprise VoC Analytics & Semantic Search Failure Dashboard")
 # ==============================================================================
 # 1. CUSTOM TOP NAVIGATION (TABS)
 # ==============================================================================
-tab1, tab2, tab3, tab4, tab5 = st.tabs(["Query Health", "Index Telemetry", "Retrieval Friction", "Issue Tracker", "🤖 AI Discovery Chat"])
+tab1, tab2 = st.tabs(["DATA OVERVIEW", "🤖 AI Discovery Chat"])
 
 # ==============================================================================
-# TAB 1: QUERY HEALTH (Dashboard)
+# TAB 1: DATA OVERVIEW (Dashboard)
 # ==============================================================================
 with tab1:
     # 2. TIGHTER KPI CARDS
@@ -304,17 +304,10 @@ with tab1:
     st.dataframe(mock_data, use_container_width=True, hide_index=True)
     st.markdown("</div>", unsafe_allow_html=True)
 
+# ==============================================================================
+# TAB 2: AI DISCOVERY CHAT
+# ==============================================================================
 with tab2:
-    st.info("Index Telemetry visualizations will be rendered here.")
-with tab3:
-    st.info("Retrieval Friction deep dives will be rendered here.")
-with tab4:
-    st.info("Issue Tracker integration will be rendered here.")
-
-# ==============================================================================
-# TAB 5: AI DISCOVERY CHAT
-# ==============================================================================
-with tab5:
     st.subheader("🤖 AI Discovery Chat")
     
     # Initialize chat history with the updated requested line
