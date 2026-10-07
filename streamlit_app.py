@@ -124,8 +124,7 @@ with st.sidebar:
     
     st.markdown("---")
     st.subheader("Advanced Filters")
-    date_range = st.date_input("Time Range", [datetime.today() - timedelta(days=90), datetime.today()])
-    conf_thresh = st.slider("LLM Confidence Threshold", 0.0, 1.0, 0.75, 0.05)
+    conf_thresh = 0.75
     cohorts = st.multiselect("User Cohorts", ["Young Explorers", "Heavy Travelers", "Archivists", "Casual Snappers"], default=["Heavy Travelers", "Archivists"])
     
     st.markdown("---")
