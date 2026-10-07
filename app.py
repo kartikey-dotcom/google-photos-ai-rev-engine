@@ -146,10 +146,11 @@ with st.sidebar:
 # Create a multiplier based on the active filters to make the data fully reactive
 active_sources = sum([src_reddit, src_app, src_forum])
 source_mult = active_sources / 3.0 if active_sources > 0 else 0.05
-cohort_mult = len(cohorts) / 4.0 if len(cohorts) > 0 else 0.1
-conf_mult = (1.1 - conf_thresh) # Lower confidence threshold implies more data included
 
-dyn_mult = max(0.1, source_mult * cohort_mult * conf_mult * 1.5)
+# Since the default number of cohorts is 2, we divide by 2.0 so the default multiplier is 1.0
+cohort_mult = len(cohorts) / 2.0 if len(cohorts) > 0 else 0.1
+
+dyn_mult = max(0.1, source_mult * cohort_mult)
 
 active_src_names = []
 if src_reddit: active_src_names.append("Reddit")
