@@ -121,8 +121,11 @@ with st.sidebar:
     src_reddit = st.checkbox("r/GooglePhotos (Reddit)", value=True)
     src_app = st.checkbox("App Store Reviews", value=True)
     src_forum = st.checkbox("Google Support Forums", value=True)
-    
 
+    active_src_names = []
+    if src_reddit: active_src_names.append("Reddit")
+    if src_app: active_src_names.append("App Store")
+    if src_forum: active_src_names.append("Forums")
     
     st.markdown("---")
     st.subheader("Rubric Execution")
@@ -212,11 +215,20 @@ with tab1:
             "Workaround": ["Person Pivot", "App Hopping", "Date Scrubbing"] * 3,
             "Count": [420, 210, 550, 180, 450, 310, 80, 120, 95]
         })
-        fig_bar = px.bar(df_work, x="Source", y="Count", color="Workaround", 
-                         color_discrete_sequence=["#1A73E8", "#34A853", "#FBBC04"])
-        fig_bar.update_layout(height=350, template="plotly_white", margin=dict(l=10, r=10, t=10, b=10),
-                              legend=dict(orientation="h", yanchor="bottom", y=-0.1, xanchor="center", x=0.5))
-        st.plotly_chart(fig_bar, use_container_width=True, config={'displayModeBar': False})
+        
+        if active_src_names:
+            df_work = df_work[df_work["Source"].isin(active_src_names)]
+        else:
+            df_work = df_work.head(0)
+            
+        if not df_work.empty:
+            fig_bar = px.bar(df_work, x="Source", y="Count", color="Workaround", 
+                             color_discrete_sequence=["#1A73E8", "#34A853", "#FBBC04"])
+            fig_bar.update_layout(height=350, template="plotly_white", margin=dict(l=10, r=10, t=10, b=10),
+                                  legend=dict(orientation="h", yanchor="bottom", y=-0.1, xanchor="center", x=0.5))
+            st.plotly_chart(fig_bar, use_container_width=True, config={'displayModeBar': False})
+        else:
+            st.warning("Please select at least one source.")
         st.markdown("</div>", unsafe_allow_html=True)
 
     with c3:
@@ -297,6 +309,12 @@ with tab1:
         "Detected Anchor": ["Context/Background", "Color/Vibe", "Location/Clothing", "Atmosphere", "System Event", "Clothing/Location"],
         "Status": ["Failed", "Failed", "Passed", "Failed", "Passed", "Failed"]
     })
+    
+    if active_src_names:
+        mock_data = mock_data[mock_data["Source"].isin(active_src_names)]
+    else:
+        mock_data = mock_data.head(0)
+        
     st.dataframe(mock_data, use_container_width=True, hide_index=True)
     st.markdown("</div>", unsafe_allow_html=True)
 
