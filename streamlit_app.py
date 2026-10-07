@@ -1,8 +1,14 @@
 import streamlit as st
 import pandas as pd
+import numpy as np
 import plotly.express as px
+import plotly.graph_objects as go
+from datetime import datetime, timedelta
 import time
 
+# ==============================================================================
+# HELPER: AI RESPONSE MOCK
+# ==============================================================================
 def get_ai_response(user_input):
     user_input = user_input.lower()
     keywords = ['photo', 'search', 'memory', 'date', 'remember', 'vibe', 'find', 'scroll', 'metadata', 'tag', 'location', 'album', 'frustration', 'workaround']
@@ -17,282 +23,339 @@ def get_ai_response(user_input):
     else:
         return "Based on the 25,450 ingested reviews, users are struggling with 'Vague Semantic Recall'. They remember the episodic context of a photo, but lack the exact keywords the search engine demands."
 
+# ==============================================================================
+# 1. PAGE CONFIGURATION & CUSTOM CSS
+# ==============================================================================
 st.set_page_config(page_title="Discovery Engine", page_icon="🔍", layout="wide")
 
-# ==============================================================================
-# 0. GOOGLE MATERIAL 3 RESKIN (CSS INJECTION)
-# ==============================================================================
 st.markdown("""
 <style>
-    /* 1. Global Typography */
-    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+    /* Hide Streamlit components */
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
     
-    /* Apply Roboto only to typography and metrics */
-    h1, h2, h3, h4, h5, h6, p, label, li,
-    [data-testid="stMarkdownContainer"],
-    [data-testid="stMetricValue"],
-    [data-testid="stMetricLabel"] {
-        font-family: 'Roboto', sans-serif !important;
-    }
-
-    /* 2. Elevated KPI Cards */
-    [data-testid="stMetric"] {
-        background-color: #FFFFFF !important;
-        border-radius: 12px !important;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.05) !important;
-        padding: 15px !important;
-        border-top: 4px solid #1A73E8 !important;
-    }
-
-    /* 3. Tactile Sidebar Buttons */
-    .stButton > button {
-        border-radius: 24px !important;
-        border: 1px solid #DADCE0 !important;
-        background-color: #FFFFFF !important;
-        color: #3C4043 !important;
-        font-weight: 500 !important;
-        transition: all 0.3s ease !important;
-        padding: 10px 15px !important;
-    }
-
-    .stButton > button:hover {
-        transform: translateY(-2px) !important;
-        border-color: #1A73E8 !important;
-        color: #1A73E8 !important;
-        box-shadow: 0 4px 8px rgba(26,115,232,0.15) !important;
-    }
-
-    /* 4. Premium Chat Bubbles */
-    [data-testid="stChatMessage"] {
-        background-color: #F0F4F9 !important;
-        border-radius: 12px !important;
-        padding: 15px !important;
-        margin-bottom: 10px !important;
-    }
-    
-    /* 5. Restore Streamlit Icons */
-    @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0');
-    
-    /* Force Material font on the header and sidebar toggles */
-    header [data-testid="collapsedControl"],
-    header [data-testid="collapsedControl"] span,
-    header [data-testid="collapsedControl"] div,
-    header [data-testid="baseButton-header"] span {
-        font-family: 'Material Symbols Rounded', sans-serif !important;
-    }
-
-    /* Modern App Background */
+    /* Global Background */
     .stApp {
         background-color: #F8F9FA;
     }
     
-    /* Sleek Custom Scrollbars */
-    ::-webkit-scrollbar {
-        width: 8px;
-        height: 8px;
+    /* Tighter KPI Cards */
+    .kpi-card {
+        background-color: #FFFFFF;
+        border-radius: 8px;
+        padding: 12px 16px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        border: 1px solid #E8EAED;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
     }
-    ::-webkit-scrollbar-track {
-        background: transparent;
+    .kpi-label {
+        font-size: 12px;
+        font-weight: 600;
+        color: #5F6368;
+        text-transform: uppercase;
+        margin-bottom: 4px;
     }
-    ::-webkit-scrollbar-thumb {
-        background: #DADCE0;
+    .kpi-value {
+        font-size: 28px;
+        font-weight: 700;
+        color: #202124;
+        margin-bottom: 4px;
+    }
+    .kpi-trend-up {
+        font-size: 12px;
+        font-weight: 600;
+        color: #137333;
+        background-color: #E6F4EA;
+        padding: 2px 6px;
         border-radius: 10px;
+        align-self: flex-start;
     }
-    ::-webkit-scrollbar-thumb:hover {
-        background: #BDC1C6;
-    }
-    
-    /* Vibrant Google Action Buttons */
-    .stButton > button {
-        background-color: #1A73E8 !important;
-        color: white !important;
-        border: none !important;
-        border-radius: 24px !important;
-        padding: 10px 24px !important;
-        font-weight: 500 !important;
-        box-shadow: 0 4px 6px rgba(26, 115, 232, 0.2) !important;
-        transition: all 0.3s ease !important;
-    }
-    .stButton > button:hover {
-        background-color: #1557B0 !important;
-        box-shadow: 0 6px 12px rgba(26, 115, 232, 0.3) !important;
-        transform: translateY(-2px) !important;
+    .kpi-trend-down {
+        font-size: 12px;
+        font-weight: 600;
+        color: #A50E0E;
+        background-color: #FCE8E6;
+        padding: 2px 6px;
+        border-radius: 10px;
+        align-self: flex-start;
     }
     
-    /* Floating Chat Input Box */
+    /* Chart Container Styling */
+    .chart-container {
+        background-color: #FFFFFF;
+        border-radius: 8px;
+        padding: 15px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        border: 1px solid #E8EAED;
+        margin-bottom: 15px;
+    }
+    
+    /* Premium Chat Bubbles */
+    [data-testid="stChatMessage"] {
+        background-color: #FFFFFF !important;
+        border: 1px solid #E8EAED !important;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.02) !important;
+        border-radius: 12px !important;
+        padding: 15px !important;
+        margin-bottom: 10px !important;
+    }
     [data-testid="stChatInput"] {
         border-radius: 24px !important;
         border: 1px solid #E8EAED !important;
-        box-shadow: 0 8px 24px rgba(0,0,0,0.08) !important;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05) !important;
         background-color: #FFFFFF !important;
-    }
-    
-    /* Deeper Metric Card Shadows */
-    [data-testid="stMetricValue"], [data-testid="stMetricLabel"] {
-        z-index: 1;
-    }
-    [data-testid="stMetric"] {
-        background: #FFFFFF;
-        border-radius: 16px;
-        padding: 20px;
-        box-shadow: 0 8px 24px rgba(0,0,0,0.04);
-        border: 1px solid #F1F3F4;
     }
 </style>
 """, unsafe_allow_html=True)
 
 # ==============================================================================
-# 1. SIDEBAR CLEANUP & CONDITIONAL RENDERING
+# SIDEBAR (Filters + Chat Triggers)
 # ==============================================================================
-if "current_view" not in st.session_state:
-    st.session_state.current_view = "📊 Data Overview"
-
-# Initialize buttons to False so logic doesn't break when hidden
-q1_btn = q2_btn = q3_btn = q4_btn = False
-
-st.sidebar.image("logo.svg", width=60)
-st.sidebar.title("Recall Lens")
-st.sidebar.markdown("---")
-
-if st.session_state.current_view == "📊 Data Overview":
-    st.sidebar.subheader("Ingestion Sources")
-    src_reddit = st.sidebar.checkbox("r/GooglePhotos (Reddit)", value=True)
-    src_appstore = st.sidebar.checkbox("App Store Reviews", value=True)
-    src_forums = st.sidebar.checkbox("Google Support Forums", value=True)
-
-elif st.session_state.current_view == "🤖 AI Discovery Chat":
-    st.sidebar.subheader("Rubric Execution")
-    q1_btn = st.sidebar.button("What kinds of old photos do users struggle to retrieve?")
-    q2_btn = st.sidebar.button("What information do people actually remember about a photo?")
-    q3_btn = st.sidebar.button("What information have they forgotten?")
-    q4_btn = st.sidebar.button("How do users formulate searches when their memory is incomplete?")
+with st.sidebar:
+    st.title("🔍 Recall Lens")
+    st.markdown("---")
     
-    st.sidebar.divider()
-    if st.sidebar.button("🔄 Restart Chat", use_container_width=True):
+    st.subheader("Ingestion Sources")
+    st.checkbox("r/GooglePhotos (Reddit)", value=True)
+    st.checkbox("App Store Reviews", value=True)
+    st.checkbox("Google Support Forums", value=True)
+    
+    st.markdown("---")
+    st.subheader("Advanced Filters")
+    st.date_input("Time Range", [datetime.today() - timedelta(days=90), datetime.today()])
+    st.slider("LLM Confidence Threshold", 0.0, 1.0, 0.75, 0.05)
+    st.multiselect("User Cohorts", ["Young Explorers", "Heavy Travelers", "Archivists", "Casual Snappers"], default=["Heavy Travelers", "Archivists"])
+    
+    st.markdown("---")
+    st.subheader("Rubric Execution")
+    q1_btn = st.button("What kinds of old photos do users struggle to retrieve?")
+    q2_btn = st.button("What information do people actually remember about a photo?")
+    q3_btn = st.button("What information have they forgotten?")
+    q4_btn = st.button("How do users formulate searches when their memory is incomplete?")
+    
+    if st.button("🔄 Restart Chat", use_container_width=True):
         st.session_state.messages = [
-            {"role": "assistant", "content": "Hello! I have ingested 25,450 user reviews from Reddit, App Stores, and Forums regarding Google Photos search failures. Click a question in the sidebar, or ask me anything."}
+            {"role": "assistant", "content": "Hello! I analyze Google Photos retrieval failures. Click a question in the sidebar or ask me anything."}
         ]
         st.rerun()
 
 # ==============================================================================
-# 2. INTERACTIVE PYTHON LOGIC & STATE MANAGEMENT
+# HEADER
 # ==============================================================================
-# Initialize chat history
-if "messages" not in st.session_state:
-    st.session_state.messages = [
-        {"role": "assistant", "content": "Hello! I have ingested 25,450 user reviews from Reddit, App Stores, and Forums regarding Google Photos search failures. Click a question in the sidebar, or ask me anything."}
-    ]
-
-
-
-# Smart Sidebar Logic
-if q1_btn or q2_btn or q3_btn or q4_btn:
-    st.session_state.current_view = "🤖 AI Discovery Chat"
-
-# 3. REQUIRED PRE-DEFINED AI RESPONSES
-if q1_btn:
-    st.session_state.messages.append({"role": "user", "content": "What kinds of old photos do users struggle to retrieve?"})
-    st.session_state.messages.append({"role": "assistant", "content": """**Utility Screenshots, Vibe/Aesthetic moments, and Incidental background objects** are the most common lost items.\n\n*Simulated Quote:* "I just want to find a photo based on the rainy weather, not the date." """})
-elif q2_btn:
-    st.session_state.messages.append({"role": "user", "content": "What information do people actually remember about a photo?"})
-    st.session_state.messages.append({"role": "assistant", "content": """Users remember **Episodic data** such as:\n- Weather\n- Clothing\n- People present\n- Emotions and vibes\n\n*Simulated Quote:* "I remember the vibe of a purple sunset, why can't I search 'purple sunset with two people'?"""})
-elif q3_btn:
-    st.session_state.messages.append({"role": "user", "content": "What information have they forgotten?"})
-    st.session_state.messages.append({"role": "assistant", "content": """Users almost always forget **Semantic/System data** such as:\n- Absolute dates\n- Exact location names\n- File types\n\n*Simulated Quote:* "Searching is useless if I don't know the exact date. I just know it was 4 years ago." """})
-elif q4_btn:
-    st.session_state.messages.append({"role": "user", "content": "How do users formulate searches when their memory is incomplete?"})
-    st.session_state.messages.append({"role": "assistant", "content": """Users rely on manual workarounds:\n- **The Person Pivot:** Users search for a known friend's face to anchor the timeline, then manually scroll to find a coffee cup.\n\n*Simulated Quote:* "Had to check WhatsApp to find the date I texted my mechanic about a tire issue, just so I could find the photo in Google Photos by date." """})
-
+st.title("Google Photos: Memory Discovery Engine")
+st.markdown("Enterprise VoC Analytics & Semantic Search Failure Dashboard")
 
 # ==============================================================================
-# MAIN CANVAS - HEADER
+# 1. CUSTOM TOP NAVIGATION (TABS)
 # ==============================================================================
-st.title("Discovery Engine")
-st.markdown("Ingesting, normalizing, and synthesizing unstructured customer feedback to deconstruct human memory retrieval failures.")
-
-st.markdown("<br>", unsafe_allow_html=True)
-current_view = st.radio("Select View:", ["📊 Data Overview", "🤖 AI Discovery Chat"], horizontal=True, label_visibility="collapsed", index=0 if st.session_state.current_view == "📊 Data Overview" else 1)
-
-# Update session state if the radio button is clicked manually
-if current_view != st.session_state.current_view:
-    st.session_state.current_view = current_view
-    st.rerun()
-
-st.markdown("---")
+tab1, tab2, tab3, tab4, tab5 = st.tabs(["Query Health", "Index Telemetry", "Retrieval Friction", "Issue Tracker", "🤖 AI Discovery Chat"])
 
 # ==============================================================================
-# 4. CONDITIONAL FULL-SCREEN RENDERING
+# TAB 1: QUERY HEALTH (Dashboard)
 # ==============================================================================
-if st.session_state.current_view == "📊 Data Overview":
-    st.subheader("Data Overview")
-    
-    # ROW 1 (KPIs)
+with tab1:
+    # 2. TIGHTER KPI CARDS
+    st.markdown("<div style='height: 10px;'></div>", unsafe_allow_html=True)
     col1, col2, col3, col4 = st.columns(4)
+    
     with col1:
-        st.metric(label="Total Vol", value="25,450", delta="+12% MoM")
+        st.markdown("""
+        <div class="kpi-card">
+            <div class="kpi-label">Total Vol</div>
+            <div class="kpi-value">25,450</div>
+            <div class="kpi-trend-up">↑ +12% MoM</div>
+        </div>
+        """, unsafe_allow_html=True)
     with col2:
-        st.metric(label="Retrieval Friction", value="68.2%", delta="+5.4%", delta_color="inverse")
+        st.markdown("""
+        <div class="kpi-card">
+            <div class="kpi-label">Retrieval Friction</div>
+            <div class="kpi-value">68.2%</div>
+            <div class="kpi-trend-down">↓ -5.4% MoM</div>
+        </div>
+        """, unsafe_allow_html=True)
     with col3:
-        st.metric(label="Abandonment", value="42.1%", delta="-1.2%")
+        st.markdown("""
+        <div class="kpi-card">
+            <div class="kpi-label">Abandonment</div>
+            <div class="kpi-value">42.1%</div>
+            <div class="kpi-trend-down">↓ -1.2% MoM</div>
+        </div>
+        """, unsafe_allow_html=True)
     with col4:
-        st.metric(label="Zero-Result Rate", value="12.4%", delta="+0.8%", delta_color="inverse")
-        
-    st.markdown("<br>", unsafe_allow_html=True)
-    
-    # ROW 2 (Charts across full width)
-    chart_col1, chart_col2 = st.columns(2)
-    
-    with chart_col1:
-        st.subheader("Semantic vs. Episodic Gap")
-        df_gap = pd.DataFrame({
-            "Query Type": ["Exact Date/Loc (System)", "Vibe/Context (Human)"],
-            "Success Rate (%)": [85, 12]
-        })
-        fig_donut = px.pie(df_gap, values="Success Rate (%)", names="Query Type", hole=0.6,
-                           color_discrete_sequence=["#4285F4", "#EA4335"])
-        fig_donut.update_layout(margin=dict(t=30, b=10, l=10, r=10), paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")
-        st.plotly_chart(fig_donut, use_container_width=True)
+        st.markdown("""
+        <div class="kpi-card">
+            <div class="kpi-label">Zero-Result Rate</div>
+            <div class="kpi-value">12.4%</div>
+            <div class="kpi-trend-up">↑ +0.8% MoM</div>
+        </div>
+        """, unsafe_allow_html=True)
 
-    with chart_col2:
-        st.subheader("Manual Workarounds by Source")
-        df_workaround = pd.DataFrame({
+    # 3. 3-COLUMN CHART GRID
+    st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
+    c1, c2, c3 = st.columns(3)
+    
+    with c1:
+        st.markdown("<div class='chart-container'>", unsafe_allow_html=True)
+        st.markdown("**Semantic vs. Episodic Gap**")
+        df_gap = pd.DataFrame({"Type": ["Semantic (System)", "Episodic (Human)"], "Val": [87.6, 12.4]})
+        fig_donut = px.pie(df_gap, values='Val', names='Type', hole=0.75, 
+                           color_discrete_sequence=["#1A73E8", "#EA4335"])
+        fig_donut.update_layout(height=350, template="plotly_white", margin=dict(l=10, r=10, t=10, b=10),
+                                legend=dict(orientation="h", yanchor="bottom", y=-0.1, xanchor="center", x=0.5))
+        st.plotly_chart(fig_donut, use_container_width=True, config={'displayModeBar': False})
+        st.markdown("</div>", unsafe_allow_html=True)
+
+    with c2:
+        st.markdown("<div class='chart-container'>", unsafe_allow_html=True)
+        st.markdown("**Manual Workarounds by Source**")
+        df_work = pd.DataFrame({
             "Source": ["Reddit", "Reddit", "Reddit", "App Store", "App Store", "App Store", "Forums", "Forums", "Forums"],
-            "Workaround Type": ["Person Pivot", "App Hopping", "Date Brute-Force", "Person Pivot", "App Hopping", "Date Brute-Force", "Person Pivot", "App Hopping", "Date Brute-Force"],
-            "Mentions": [420, 210, 550, 180, 450, 310, 80, 120, 95]
+            "Workaround": ["Person Pivot", "App Hopping", "Date Scrubbing"] * 3,
+            "Count": [420, 210, 550, 180, 450, 310, 80, 120, 95]
         })
-        fig_bar = px.bar(df_workaround, x="Source", y="Mentions", color="Workaround Type", 
-                         color_discrete_sequence=["#4285F4", "#34A853", "#FBBC05"])
-        fig_bar.update_layout(margin=dict(t=30, b=10, l=10, r=10), paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")
-        st.plotly_chart(fig_bar, use_container_width=True)
+        fig_bar = px.bar(df_work, x="Source", y="Count", color="Workaround", 
+                         color_discrete_sequence=["#1A73E8", "#34A853", "#FBBC04"])
+        fig_bar.update_layout(height=350, template="plotly_white", margin=dict(l=10, r=10, t=10, b=10),
+                              legend=dict(orientation="h", yanchor="bottom", y=-0.1, xanchor="center", x=0.5))
+        st.plotly_chart(fig_bar, use_container_width=True, config={'displayModeBar': False})
+        st.markdown("</div>", unsafe_allow_html=True)
 
-elif st.session_state.current_view == "🤖 AI Discovery Chat":
+    with c3:
+        st.markdown("<div class='chart-container'>", unsafe_allow_html=True)
+        st.markdown("**Failure Modes**")
+        categories = ['Wrong-Type Results', 'Zero-Results', 'Look-alikes', 'Date Misses']
+        fig_radar = go.Figure()
+        fig_radar.add_trace(go.Scatterpolar(
+            r=[42, 12, 28, 18],
+            theta=categories,
+            fill='toself',
+            name='Failures',
+            line_color='#EA4335',
+            fillcolor='rgba(234, 67, 53, 0.4)'
+        ))
+        fig_radar.update_layout(
+            height=350, 
+            polar=dict(radialaxis=dict(visible=True, range=[0, 50])),
+            showlegend=False,
+            template="plotly_white",
+            margin=dict(l=30, r=30, t=20, b=20)
+        )
+        st.plotly_chart(fig_radar, use_container_width=True, config={'displayModeBar': False})
+        st.markdown("</div>", unsafe_allow_html=True)
+
+    # 4. 2-COLUMN CHART GRID
+    st.markdown("<div style='height: 5px;'></div>", unsafe_allow_html=True)
+    c4, c5 = st.columns([2, 1])
+    
+    with c4:
+        st.markdown("<div class='chart-container'>", unsafe_allow_html=True)
+        st.markdown("**Retrieval Friction Trend (Last 90 Days)**")
+        dates = pd.date_range(start=datetime.today()-timedelta(days=90), periods=90)
+        np.random.seed(42)
+        friction = np.linspace(80, 60, 90) + np.random.normal(0, 3, 90)
+        df_area = pd.DataFrame({'Date': dates, 'Friction Score': friction})
+        
+        fig_area = go.Figure()
+        fig_area.add_trace(go.Scatter(x=df_area['Date'], y=df_area['Friction Score'], fill='tozeroy', mode='lines', 
+                                      line=dict(color='#1A73E8', width=3), fillcolor='rgba(26, 115, 232, 0.2)'))
+        fig_area.update_layout(
+            height=350,
+            template="plotly_white",
+            margin=dict(l=10, r=10, t=10, b=10),
+            yaxis=dict(title='Friction Index')
+        )
+        st.plotly_chart(fig_area, use_container_width=True, config={'displayModeBar': False})
+        st.markdown("</div>", unsafe_allow_html=True)
+        
+    with c5:
+        st.markdown("<div class='chart-container'>", unsafe_allow_html=True)
+        st.markdown("**Breakdown of System Errors**")
+        df_tree = pd.DataFrame({
+            "Root": ["Errors"] * 4,
+            "Type": ["Wrong-Type Results", "Look-alikes", "Zero-Results", "Date Misses"],
+            "Val": [42, 28, 12, 18]
+        })
+        fig_tree = px.treemap(df_tree, path=['Root', 'Type'], values='Val',
+                              color='Type', color_discrete_sequence=["#4285F4", "#FBBC04", "#34A853", "#EA4335"])
+        fig_tree.update_layout(height=350, template="plotly_white", margin=dict(l=0, r=0, t=10, b=0))
+        st.plotly_chart(fig_tree, use_container_width=True, config={'displayModeBar': False})
+        st.markdown("</div>", unsafe_allow_html=True)
+
+    # 5. RAW DATA TABLE
+    st.markdown("### Live Index Telemetry Logs")
+    st.markdown("<div class='chart-container'>", unsafe_allow_html=True)
+    mock_data = pd.DataFrame({
+        "Timestamp": [(datetime.now() - timedelta(minutes=i*12)).strftime("%Y-%m-%d %H:%M:%S") for i in range(6)],
+        "Source": ["Reddit", "App Store", "Reddit", "App Store", "Forums", "Reddit"],
+        "Vague Query": [
+            "dog sleeping on messy desk",
+            "purple sunset with two people",
+            "pasta in rome wearing red jacket",
+            "cozy rainy feeling window",
+            "mechanic tire issue text",
+            "silly hat cafe 2018"
+        ],
+        "Detected Anchor": ["Context/Background", "Color/Vibe", "Location/Clothing", "Atmosphere", "System Event", "Clothing/Location"],
+        "Status": ["Failed", "Failed", "Passed", "Failed", "Passed", "Failed"]
+    })
+    st.dataframe(mock_data, use_container_width=True, hide_index=True)
+    st.markdown("</div>", unsafe_allow_html=True)
+
+with tab2:
+    st.info("Index Telemetry visualizations will be rendered here.")
+with tab3:
+    st.info("Retrieval Friction deep dives will be rendered here.")
+with tab4:
+    st.info("Issue Tracker integration will be rendered here.")
+
+# ==============================================================================
+# TAB 5: AI DISCOVERY CHAT
+# ==============================================================================
+with tab5:
     st.subheader("🤖 AI Discovery Chat")
     
-    # Show spinner if a sidebar button was just clicked
-    if q1_btn or q2_btn or q3_btn or q4_btn:
-        with st.spinner("Synthesizing user feedback across sources..."):
-            time.sleep(2)
-            
+    # Initialize chat history with the updated requested line
+    if "messages" not in st.session_state:
+        st.session_state.messages = [
+            {"role": "assistant", "content": "Hello! I analyze Google Photos retrieval failures. Click a question in the sidebar or ask me anything."}
+        ]
+
+    # Handle Sidebar Question Button Clicks
+    if q1_btn:
+        st.session_state.messages.append({"role": "user", "content": "What kinds of old photos do users struggle to retrieve?"})
+        st.session_state.messages.append({"role": "assistant", "content": "**Utility Screenshots, Vibe/Aesthetic moments, and Incidental background objects** are the most common lost items.\n\n*Simulated Quote:* \"I just want to find a photo based on the rainy weather, not the date.\" "})
+    elif q2_btn:
+        st.session_state.messages.append({"role": "user", "content": "What information do people actually remember about a photo?"})
+        st.session_state.messages.append({"role": "assistant", "content": "Users remember **Episodic data** such as:\n- Weather\n- Clothing\n- People present\n- Emotions and vibes\n\n*Simulated Quote:* \"I remember the vibe of a purple sunset, why can't I search 'purple sunset with two people'?\""})
+    elif q3_btn:
+        st.session_state.messages.append({"role": "user", "content": "What information have they forgotten?"})
+        st.session_state.messages.append({"role": "assistant", "content": "Users almost always forget **Semantic/System data** such as:\n- Absolute dates\n- Exact location names\n- File types\n\n*Simulated Quote:* \"Searching is useless if I don't know the exact date. I just know it was 4 years ago.\" "})
+    elif q4_btn:
+        st.session_state.messages.append({"role": "user", "content": "How do users formulate searches when their memory is incomplete?"})
+        st.session_state.messages.append({"role": "assistant", "content": "Users rely on manual workarounds:\n- **The Person Pivot:** Users search for a known friend's face to anchor the timeline, then manually scroll to find a coffee cup.\n\n*Simulated Quote:* \"Had to check WhatsApp to find the date I texted my mechanic about a tire issue, just so I could find the photo in Google Photos by date.\" "})
+
     # Display chat messages from history on app rerun
     for message in st.session_state.messages:
         avatar = "✨" if message["role"] == "assistant" else "👤"
         with st.chat_message(message["role"], avatar=avatar):
             st.markdown(message["content"])
 
-    # Accept user input (st.chat_input)
+    # Accept user input
     if prompt := st.chat_input("Ask a follow-up question..."):
-        # Display user message in chat message container
-        with st.chat_message("user", avatar="👤"):
-            st.markdown(prompt)
         # Add user message to chat history
         st.session_state.messages.append({"role": "user", "content": prompt})
-        
+        with st.chat_message("user", avatar="👤"):
+            st.markdown(prompt)
+            
         # Display assistant response in chat message container
         with st.chat_message("assistant", avatar="✨"):
             with st.spinner("Analyzing semantic intent and querying VoC index..."):
-                time.sleep(1.5)
+                time.sleep(1.0)
                 response = get_ai_response(prompt)
                 st.markdown(response)
+                
         # Add assistant response to chat history
         st.session_state.messages.append({"role": "assistant", "content": response})
-        st.rerun()
