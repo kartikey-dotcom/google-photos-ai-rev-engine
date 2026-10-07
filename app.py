@@ -118,15 +118,15 @@ with st.sidebar:
     st.markdown("---")
     
     st.subheader("Ingestion Sources")
-    st.checkbox("r/GooglePhotos (Reddit)", value=True)
-    st.checkbox("App Store Reviews", value=True)
-    st.checkbox("Google Support Forums", value=True)
+    src_reddit = st.checkbox("r/GooglePhotos (Reddit)", value=True)
+    src_app = st.checkbox("App Store Reviews", value=True)
+    src_forum = st.checkbox("Google Support Forums", value=True)
     
     st.markdown("---")
     st.subheader("Advanced Filters")
-    st.date_input("Time Range", [datetime.today() - timedelta(days=90), datetime.today()])
-    st.slider("LLM Confidence Threshold", 0.0, 1.0, 0.75, 0.05)
-    st.multiselect("User Cohorts", ["Young Explorers", "Heavy Travelers", "Archivists", "Casual Snappers"], default=["Heavy Travelers", "Archivists"])
+    date_range = st.date_input("Time Range", [datetime.today() - timedelta(days=90), datetime.today()])
+    conf_thresh = st.slider("LLM Confidence Threshold", 0.0, 1.0, 0.75, 0.05)
+    cohorts = st.multiselect("User Cohorts", ["Young Explorers", "Heavy Travelers", "Archivists", "Casual Snappers"], default=["Heavy Travelers", "Archivists"])
     
     st.markdown("---")
     st.subheader("Rubric Execution")
@@ -140,6 +140,22 @@ with st.sidebar:
             {"role": "assistant", "content": "Hello! I analyze Google Photos retrieval failures. Click a question in the sidebar or ask me anything."}
         ]
         st.rerun()
+
+# ==============================================================================
+# DYNAMIC DATA CALCULATION BASED ON FILTERS
+# ==============================================================================
+# Create a multiplier based on the active filters to make the data fully reactive
+active_sources = sum([src_reddit, src_app, src_forum])
+source_mult = active_sources / 3.0 if active_sources > 0 else 0.05
+cohort_mult = len(cohorts) / 4.0 if len(cohorts) > 0 else 0.1
+conf_mult = (1.1 - conf_thresh) # Lower confidence threshold implies more data included
+
+dyn_mult = max(0.1, source_mult * cohort_mult * conf_mult * 1.5)
+
+active_src_names = []
+if src_reddit: active_src_names.append("Reddit")
+if src_app: active_src_names.append("App Store")
+if src_forum: active_src_names.append("Forums")
 
 # ==============================================================================
 # HEADER
@@ -156,39 +172,44 @@ tab1, tab2 = st.tabs(["DATA OVERVIEW", "🤖 AI Discovery Chat"])
 # TAB 1: DATA OVERVIEW (Dashboard)
 # ==============================================================================
 with tab1:
-    # 2. TIGHTER KPI CARDS
+    # 2. TIGHTER KPI CARDS (Now dynamic)
     st.markdown("<div style='height: 10px;'></div>", unsafe_allow_html=True)
     col1, col2, col3, col4 = st.columns(4)
     
+    v_vol = int(25450 * dyn_mult)
+    v_fric = min(98.0, 68.2 + (conf_thresh * 10) - (source_mult * 5))
+    v_aban = min(95.0, 42.1 * (1.2 - cohort_mult))
+    v_zero = min(50.0, 12.4 + (conf_thresh * 5))
+    
     with col1:
-        st.markdown("""
+        st.markdown(f"""
         <div class="kpi-card">
             <div class="kpi-label">Total Vol</div>
-            <div class="kpi-value">25,450</div>
+            <div class="kpi-value">{v_vol:,}</div>
             <div class="kpi-trend-up">↑ +12% MoM</div>
         </div>
         """, unsafe_allow_html=True)
     with col2:
-        st.markdown("""
+        st.markdown(f"""
         <div class="kpi-card">
             <div class="kpi-label">Retrieval Friction</div>
-            <div class="kpi-value">68.2%</div>
+            <div class="kpi-value">{v_fric:.1f}%</div>
             <div class="kpi-trend-down">↓ -5.4% MoM</div>
         </div>
         """, unsafe_allow_html=True)
     with col3:
-        st.markdown("""
+        st.markdown(f"""
         <div class="kpi-card">
             <div class="kpi-label">Abandonment</div>
-            <div class="kpi-value">42.1%</div>
+            <div class="kpi-value">{v_aban:.1f}%</div>
             <div class="kpi-trend-down">↓ -1.2% MoM</div>
         </div>
         """, unsafe_allow_html=True)
     with col4:
-        st.markdown("""
+        st.markdown(f"""
         <div class="kpi-card">
             <div class="kpi-label">Zero-Result Rate</div>
-            <div class="kpi-value">12.4%</div>
+            <div class="kpi-value">{v_zero:.1f}%</div>
             <div class="kpi-trend-up">↑ +0.8% MoM</div>
         </div>
         """, unsafe_allow_html=True)
@@ -200,7 +221,9 @@ with tab1:
     with c1:
         st.markdown("<div class='chart-container'>", unsafe_allow_html=True)
         st.markdown("**Semantic vs. Episodic Gap**")
-        df_gap = pd.DataFrame({"Type": ["Semantic (System)", "Episodic (Human)"], "Val": [87.6, 12.4]})
+        gap_sys = max(10, 87.6 - (conf_thresh * 10))
+        gap_hum = 100 - gap_sys
+        df_gap = pd.DataFrame({"Type": ["Semantic (System)", "Episodic (Human)"], "Val": [gap_sys, gap_hum]})
         fig_donut = px.pie(df_gap, values='Val', names='Type', hole=0.75, 
                            color_discrete_sequence=["#1A73E8", "#EA4335"])
         fig_donut.update_layout(height=350, template="plotly_white", margin=dict(l=10, r=10, t=10, b=10),
@@ -211,25 +234,34 @@ with tab1:
     with c2:
         st.markdown("<div class='chart-container'>", unsafe_allow_html=True)
         st.markdown("**Manual Workarounds by Source**")
-        df_work = pd.DataFrame({
+        base_df_work = pd.DataFrame({
             "Source": ["Reddit", "Reddit", "Reddit", "App Store", "App Store", "App Store", "Forums", "Forums", "Forums"],
             "Workaround": ["Person Pivot", "App Hopping", "Date Scrubbing"] * 3,
             "Count": [420, 210, 550, 180, 450, 310, 80, 120, 95]
         })
-        fig_bar = px.bar(df_work, x="Source", y="Count", color="Workaround", 
-                         color_discrete_sequence=["#1A73E8", "#34A853", "#FBBC04"])
-        fig_bar.update_layout(height=350, template="plotly_white", margin=dict(l=10, r=10, t=10, b=10),
-                              legend=dict(orientation="h", yanchor="bottom", y=-0.1, xanchor="center", x=0.5))
-        st.plotly_chart(fig_bar, use_container_width=True, config={'displayModeBar': False})
+        # Filter based on sidebar sources
+        df_work = base_df_work[base_df_work["Source"].isin(active_src_names)] if active_src_names else base_df_work
+        # Apply scaling based on cohorts/confidence
+        df_work['Count'] = (df_work['Count'] * cohort_mult * (1.1 - conf_thresh) * 2).astype(int)
+        
+        if not df_work.empty:
+            fig_bar = px.bar(df_work, x="Source", y="Count", color="Workaround", 
+                             color_discrete_sequence=["#1A73E8", "#34A853", "#FBBC04"])
+            fig_bar.update_layout(height=350, template="plotly_white", margin=dict(l=10, r=10, t=10, b=10),
+                                  legend=dict(orientation="h", yanchor="bottom", y=-0.1, xanchor="center", x=0.5))
+            st.plotly_chart(fig_bar, use_container_width=True, config={'displayModeBar': False})
+        else:
+            st.warning("Please select at least one Ingestion Source.")
         st.markdown("</div>", unsafe_allow_html=True)
 
     with c3:
         st.markdown("<div class='chart-container'>", unsafe_allow_html=True)
         st.markdown("**Failure Modes**")
         categories = ['Wrong-Type Results', 'Zero-Results', 'Look-alikes', 'Date Misses']
+        r_vals = np.array([42, 12, 28, 18]) * dyn_mult * 2
         fig_radar = go.Figure()
         fig_radar.add_trace(go.Scatterpolar(
-            r=[42, 12, 28, 18],
+            r=r_vals,
             theta=categories,
             fill='toself',
             name='Failures',
@@ -238,7 +270,7 @@ with tab1:
         ))
         fig_radar.update_layout(
             height=350, 
-            polar=dict(radialaxis=dict(visible=True, range=[0, 50])),
+            polar=dict(radialaxis=dict(visible=True, range=[0, max(50, max(r_vals)*1.2)])),
             showlegend=False,
             template="plotly_white",
             margin=dict(l=30, r=30, t=20, b=20)
@@ -254,8 +286,12 @@ with tab1:
         st.markdown("<div class='chart-container'>", unsafe_allow_html=True)
         st.markdown("**Retrieval Friction Trend (Last 90 Days)**")
         dates = pd.date_range(start=datetime.today()-timedelta(days=90), periods=90)
-        np.random.seed(42)
-        friction = np.linspace(80, 60, 90) + np.random.normal(0, 3, 90)
+        
+        # Change random seed based on filter state so chart changes dynamically
+        np.random.seed(int(conf_thresh * 100) + len(cohorts) + active_sources)
+        friction = np.linspace(80, 60, 90) + np.random.normal(0, 3 + (1-conf_thresh)*5, 90)
+        friction = friction * (0.6 + 0.4 * dyn_mult)
+        
         df_area = pd.DataFrame({'Date': dates, 'Friction Score': friction})
         
         fig_area = go.Figure()
@@ -273,10 +309,11 @@ with tab1:
     with c5:
         st.markdown("<div class='chart-container'>", unsafe_allow_html=True)
         st.markdown("**Breakdown of System Errors**")
+        tree_vals = np.array([42, 28, 12, 18]) * dyn_mult
         df_tree = pd.DataFrame({
             "Root": ["Errors"] * 4,
             "Type": ["Wrong-Type Results", "Look-alikes", "Zero-Results", "Date Misses"],
-            "Val": [42, 28, 12, 18]
+            "Val": tree_vals
         })
         fig_tree = px.treemap(df_tree, path=['Root', 'Type'], values='Val',
                               color='Type', color_discrete_sequence=["#4285F4", "#FBBC04", "#34A853", "#EA4335"])
@@ -287,21 +324,34 @@ with tab1:
     # 5. RAW DATA TABLE
     st.markdown("### Live Index Telemetry Logs")
     st.markdown("<div class='chart-container'>", unsafe_allow_html=True)
-    mock_data = pd.DataFrame({
-        "Timestamp": [(datetime.now() - timedelta(minutes=i*12)).strftime("%Y-%m-%d %H:%M:%S") for i in range(6)],
-        "Source": ["Reddit", "App Store", "Reddit", "App Store", "Forums", "Reddit"],
+    base_mock_data = pd.DataFrame({
+        "Timestamp": [(datetime.now() - timedelta(minutes=i*12)).strftime("%Y-%m-%d %H:%M:%S") for i in range(12)],
+        "Source": ["Reddit", "App Store", "Reddit", "App Store", "Forums", "Reddit", "App Store", "Forums", "Reddit", "App Store", "Forums", "Reddit"],
         "Vague Query": [
             "dog sleeping on messy desk",
             "purple sunset with two people",
             "pasta in rome wearing red jacket",
             "cozy rainy feeling window",
             "mechanic tire issue text",
-            "silly hat cafe 2018"
+            "silly hat cafe 2018",
+            "blue house snow",
+            "receipt from target 2021",
+            "hiking boots mud",
+            "airport terminal running",
+            "concert lights blurry",
+            "cat under blanket"
         ],
-        "Detected Anchor": ["Context/Background", "Color/Vibe", "Location/Clothing", "Atmosphere", "System Event", "Clothing/Location"],
-        "Status": ["Failed", "Failed", "Passed", "Failed", "Passed", "Failed"]
+        "Detected Anchor": ["Context", "Color", "Location", "Atmosphere", "System Event", "Clothing", "Color", "System Event", "Context", "Location", "Vibe", "Context"],
+        "Status": ["Failed", "Failed", "Passed", "Failed", "Passed", "Failed", "Failed", "Passed", "Failed", "Passed", "Failed", "Failed"]
     })
-    st.dataframe(mock_data, use_container_width=True, hide_index=True)
+    
+    # Filter based on sources
+    if active_src_names:
+        df_telemetry = base_mock_data[base_mock_data["Source"].isin(active_src_names)]
+    else:
+        df_telemetry = base_mock_data.head(0) # empty
+        
+    st.dataframe(df_telemetry.head(6), use_container_width=True, hide_index=True)
     st.markdown("</div>", unsafe_allow_html=True)
 
 # ==============================================================================
