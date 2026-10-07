@@ -122,10 +122,7 @@ with st.sidebar:
     src_app = st.checkbox("App Store Reviews", value=True)
     src_forum = st.checkbox("Google Support Forums", value=True)
     
-    st.markdown("---")
-    st.subheader("Advanced Filters")
-    conf_thresh = 0.75
-    cohorts = st.multiselect("User Cohorts", ["Young Explorers", "Heavy Travelers", "Archivists", "Casual Snappers"], default=["Heavy Travelers", "Archivists"])
+
     
     st.markdown("---")
     st.subheader("Rubric Execution")
